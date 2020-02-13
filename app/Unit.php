@@ -1,0 +1,67 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
+class Unit extends Model
+{
+
+    protected $table='units';
+
+    protected $fillable= [
+        'user_id',
+        'country_id',
+        'Title',
+        'Description',
+        'Cities',
+        'Address',
+        'property_type',
+        'property_features',
+        'Status',
+        'beds',
+        'baths',
+        'area',
+        'garages',
+        'israting',
+        'map_lat',
+        'map_lon',
+        'price',
+        'photos',
+    ];
+    //
+    public function getTheMaxAmount()
+    {
+        return DB::table('units')->max('price');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User','user_id');
+    }
+
+    public function photos(){
+        return $this->morphMany('App\Photo', 'imageable');
+    }
+
+    public function tags(){
+        return $this->morphToMany('App\Tag','taggable');
+    }
+
+    public function featured(){
+        return $this->morphMany('App\FeaturedUnit', 'featured');
+    }
+
+    public function propertyType(){
+        return $this->belongsTo('App\propertyTypeModel','property_type');
+    }
+
+    public function propertyStatus(){
+        return $this->belongsTo('App\status', 'Status');
+    }
+
+
+
+
+
+}
