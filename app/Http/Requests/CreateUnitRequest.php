@@ -26,10 +26,10 @@ class CreateUnitRequest extends FormRequest
         return [
             'Title'              => 'required|min:5',
             'price'             => 'required:required|regex:/^\d+(\.\d{1,2})?$/',
-            'Description'=>'required|min:10',
+            'Description'       =>'required|min:10',
             'Address'           => 'required|min:5',
             'beds'              => 'required',
-            'Cities'         => 'required',
+            'Cities'            => 'required',
             'baths'              => 'required'
         ];
     }

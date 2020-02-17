@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Unit extends Model
 {
-
+    use SoftDeletes;
     protected $table='units';
 
     protected $fillable= [
@@ -41,7 +42,13 @@ class Unit extends Model
     }
 
     public function photos(){
-        return $this->morphMany('App\Photo', 'imageable');
+        return $this->morphMany('App\Photo', 'imageable_id');
+    }
+//    public function photos(){
+//        return $this->hasMany('App\Photo', 'imageable_id');
+//    }
+    public function unitPhoto(){
+        return $this->hasOne('App\Photo','imageable_id');
     }
 
     public function tags(){

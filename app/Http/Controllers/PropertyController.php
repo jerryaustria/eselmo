@@ -18,6 +18,8 @@ use Carbon\Carbon;
 class PropertyController extends Controller
 {
 
+
+
     public function __construct()
     {
 
@@ -34,10 +36,11 @@ class PropertyController extends Controller
 
     public function myProperties(){
 
-        $units = Units::where('user_id', Auth::user()->id)->get();
-
-//        return $units->photos->path;
-
+//        $units = Units::where('user_id', Auth::user()->id)->get();
+        $units = Auth::user()->properties()->get();
+//        $photo = Auth::user()->Unitphotos()->first();
+        $photos = Photo::where('imageable_id','=',Auth::user()->id)
+                ->where('imageable_type','=','App\Unit')->get();
 
 
         return view('units.my-properties',compact('units'));
@@ -61,11 +64,7 @@ class PropertyController extends Controller
         $all_property = propertyType::pluck('name','id')->all();
 
         $all_status = AppStatus::pluck('name','id')->all();
-//        $status = new AppStatus();
-//        $all_status = $status->all();
 
-//        $all_features = $features->find($user->id);
-//        $all_features = $features->get_property_features($user->id);
 
         $all_features = Features::where('created_by','=', 0)
                         ->orWhere('created_by','=',$user->id)->get();
@@ -78,8 +77,6 @@ class PropertyController extends Controller
         $data['status']             =$all_status;
 
 //        return view('units/form',compact('user', $cities));
-
-
 
         return view('units/form',$data);
 
@@ -170,7 +167,7 @@ class PropertyController extends Controller
 
         $inputs = $request->all();
         $inputs['user_id'] = $user->id;
-        $inputs['is_rating'] = !empty($request->rating) ? 1 : 0;
+        $inputs['israting'] = !empty($request->israting) ? 1 : 0;
         $features               = $request->input('property_features');
         $all_features ="";
 
@@ -207,8 +204,6 @@ class PropertyController extends Controller
                     $all_files .= $photoID->id . "|";
                 }
             }
-
-
 
             $inputs['photos'] = $all_files;
         }
@@ -306,6 +301,22 @@ class PropertyController extends Controller
     public function edit($id)
     {
         //
+
+//        return $id;
+
+
+        $unit = Units::findOrFail($id);
+
+        $cities = Cities::pluck('name','id');
+        $property_type = propertyType::pluck('name','id')->all();
+        $status = Status::pluck('name','id');
+        $property_features = Features::pluck('name', 'id');
+        $property_selected_features = explode('|',$unit->property_features);
+
+//        return $property_selected_features;
+
+        return view('units.edit', compact('unit','cities', 'property_type', 'status','property_features','property_selected_features'));
+
     }
 
     /**
@@ -315,9 +326,76 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateUnitRequest $request, $id)
     {
         //
+
+
+
+        $inputs = $request->all();
+
+//        return dd($request->israting);
+
+        date_default_timezone_set('Asia/Manila');
+
+
+
+//        $inputs['user_id'] = $user->id;
+        $inputs['israting'] = !empty($request->israting) ? 1 : 0;
+        $features               = $request->input('property_features');
+        $all_features ="";
+
+
+        if(!empty($features) && count($features) > 0){
+            foreach($features as $selected_features){
+                if(!next($features)){
+                    $all_features .= $selected_features ;
+                }else{
+                    $all_features .= $selected_features . "|";
+                }
+
+            }
+        }
+
+
+        $inputs['property_features'] = $all_features;
+
+
+
+        if($files = $request->file('file')){
+
+            $all_files = "";
+
+            foreach($files as $file){
+
+                $photo['path'] = time() . $file->getClientOriginalName();
+                $photo['imageable_id'] = Auth::user()->id;
+                $photo['imageable_type'] = 'App\Unit';
+
+                $file->move('images', $photo['path']);
+
+                $photoID = Photo::create($photo);
+
+                if(!next($files)){
+                    $all_files .= $photoID->id;
+                }else{
+                    $all_files .= $photoID->id . "|";
+                }
+            }
+
+            $inputs['photos'] = $all_files;
+        }
+
+
+
+//        $unit = $user->properties()->create($inputs);
+
+        Auth::user()->properties()->whereId($id)->first()->update($inputs);
+
+        return $this->myProperties();
+
+
+
     }
 
     /**
@@ -329,5 +407,46 @@ class PropertyController extends Controller
     public function destroy($id)
     {
         //
+
+
+        $unit = Units::findOrFail($id)->limit(1)->get();
+
+
+
+//        $unitPhoto = $unit->photos;
+
+//
+//        return $this->myProperties();
+//
+        unlink(public_path() . $unit->photos->path);
+        $unit->delete();
+
+        return $this->myProperties();
     }
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

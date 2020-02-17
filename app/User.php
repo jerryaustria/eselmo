@@ -34,8 +34,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function photos(){
-       return $this->morphMany('App\Photo', 'imageable');
+    public function Unitphotos(){
+       return $this->hasMany('App\Photo', 'imageable_id');
     }
 
 

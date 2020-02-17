@@ -15,7 +15,19 @@ class CreateUnitsTable extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('agency_id')->nullable();
+            $table->bigIncrements('user_id')->nullable();
+            $table->bigIncrements('country_id')->nullable();
+            $table->string('Title');
+            $table->string('Description');
+            $table->integer('Cities');
+            $table->string('Address');
+            $table->bigIncrements('property_type')->nullable();
+            $table->bigIncrements('status')->nullable();
+            $table->integer('beds')->nullable();
+            $table->integer('baths')->nullable();
+            $table->double('area')->nullable();
+            $table->double('garages')->nullable();
+
             $table->timestamps();
         });
     }

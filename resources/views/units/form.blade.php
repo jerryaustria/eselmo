@@ -138,7 +138,7 @@
                                                 {!! Form::label('Title','Title')!!}
 
 {{--                                                <input type="text" class="form-control error" id="submit-title" name="title" value="{{old('title')}}" required>--}}
-                                                {!! Form::text('Title',old('Title'),['class'=>'form-control error', 'id'=>'submit-title', 'required']) !!}
+                                                {!! Form::text('Title',null,['class'=>'form-control error', 'id'=>'submit-title', 'required']) !!}
 
                                                 <small class="error">{{$errors->first('Title')}}</small>
 
@@ -146,19 +146,32 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="submit-price">Price</label>
+
+                                                {!! Form::label('price','Price') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon">P</span>
-                                                    <input type="text" class="form-control" id="submit-price" name="price" value="{{old('price')}}" pattern="^\d*(\.\d{2}$)?" required>
+{{--                                                    <input type="text" class="form-control" id="price" name="price" value="{{old('price')}}" pattern="^\d*(\.\d{2}$)?" required>--}}
+
+
+                                                        {!! Form::text('price',null ,['class'=>'form-control error', 'id'=>'price', 'pattern'=>'^\d*(\.\d{2}$)?', 'required']) !!}
+
                                                     <small class="error">{{$errors->first('price')}}</small>
                                                 </div>
                                             </div><!-- /.form-group -->
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="submit-description">Description</label>
-                                        <textarea class="form-control" id="submit-description" rows="8" name="Description" value="{{old('Description')}}" required>{{old('
-                                        Description')}}</textarea>
+
+                                        {!! Form::label('Description','Description') !!}
+{{--                                        <textarea class="form-control" id="submit-description" rows="8" name="Description" value="{{old('Description')}}" required>{{old('--}}
+{{--                                        Description')}}</textarea>--}}
+
+
+
+                                            {!! Form::textarea('Description',old('Description') ? $unit->Description : '',['class'=>'form-control', 'required']) !!}
+
+
+
                                         <small class="error">{{$errors->first('Description')}}</small>
                                     </div><!-- /.form-group -->
                                 </section><!-- /#basic-information -->
@@ -402,7 +415,7 @@
     <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/fileinput.min.js')}}"></script>
-    <script type="text/javascript" src="assets/js/custom-map.js"></script>
+    <script type="text/javascript" src="{{asset('assets/js/custom-map.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/common.js')}}"></script>
 
 

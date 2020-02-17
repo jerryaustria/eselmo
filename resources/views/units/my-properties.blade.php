@@ -68,7 +68,7 @@
                                             <tr>
                                                 <td class="image">
                                                     <a href="property-detail.html"><img alt="" src="assets/img/properties/property-04.jpg"></a>
-
+{{--                                                    <a href="property-detail.html"><img alt="" src="/images/{{$user->photos ? $user->photos->path->first() : 'no user photo '}}"></a>--}}
                                                 </td>
                                                 <td><div class="inner">
 
@@ -87,8 +87,8 @@
                                                 <td>{{$unit->created_at}}</td>
                                                 <td>236</td>
                                                 <td class="actions">
-                                                    <a href="#" class="edit"><i class="fa fa-pencil"></i>Edit</a>
-                                                    <a href="#"><i class="delete fa fa-trash-o"></i></a>
+                                                    <a href="{{route('Units.edit', $unit->id)}}" class="edit"><i class="fa fa-pencil"></i>Edit</a>
+                                                    <a href="{{route('Units.delete',['id'=>$unit->id])}}"><i class="delete fa fa-trash-o"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach

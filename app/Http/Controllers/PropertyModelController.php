@@ -81,5 +81,7 @@ class PropertyModelController extends Controller
     public function destroy(PropertyModel $propertyModel)
     {
         //
+
+        return "hello";
     }
 }

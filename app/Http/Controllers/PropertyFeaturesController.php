@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\propertyFetures as Features;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyFeaturesController extends Controller
 {
@@ -38,8 +39,13 @@ class PropertyFeaturesController extends Controller
     {
         //
 
+
+
+
+        $inputs=$request->all();
+
         $validator = \Validator::make($request->all(),[
-            'name'=>'required'
+            'name'=>'required',
         ]);
 
         if($validator->fails())
@@ -47,14 +53,17 @@ class PropertyFeaturesController extends Controller
             return response()->json(['errors'=>$validator->errors()->all()]);
         }
 
-        $features = new Features();
+        $inputs['created_by'] = Auth::user()->id;
 
-        $features->name = $request->get('name');
-        $features->created_by = $request->get('created_by');
+        $features = Features::create($inputs);
 
-        $features->save();
+//        $features->name = $request->get('name');
+//        $features->created_by = $request->get('created_by');
+
+//        $features->save();
 
         return response()->json(array('success'=>true,'last_insert'=>$features->id,'name'=>$features->name));
+
 
     }
 

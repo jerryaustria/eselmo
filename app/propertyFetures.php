@@ -10,6 +10,12 @@ class propertyFetures extends Model
 {
     //
     protected $table = 'property_fetures';
+
+    protected $fillable=[
+        'name','created_by',
+    ];
+
+
     public function get_property_features($user_id)
     {
 

@@ -26,26 +26,24 @@ Route::get('/', 'ContentsController@home')->name('home');
 //Route::get('/', 'HomeController@index')->name('home');
 Route::get('/client', 'ClientController@index')->name('index');
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ UNITS
+// UNITS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ UNITS
 
 Route::get('my-properties','PropertyController@myProperties')->name('myProperties');
 
-
+//Route::get('/units/edit/{$unit_id}','PropertyController@edit')->name('edit.Unit');
 
 Route::get('/post', 'PropertyController@index')->name('postproperty');
 
-
-
 Route::post('/post', 'PropertyController@store')->name('postproperty');
 
-Route::post('/addFeatures', 'PropertyFeaturesController@store');
+Route::get('/addFeatures', 'PropertyFeaturesController@store');
+Route::get('Units/{user_id}/delete', 'PropertyController@destroy')->name('Units.delete');
 
+Route::resource('Units', 'PropertyController');
+
+
+//USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ USERS
 Route::resource('dashboard/users','adminUsersController');
-
-
-
-//USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 Route::get('User/Profile','UsersController@userProfile')->name('userProfile');
 
@@ -89,14 +87,6 @@ Route::get('create/users',function(){
 
 
 });
-
-
-
-
-
-
-
-
 
 
 

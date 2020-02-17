@@ -225,11 +225,12 @@ class UsersController extends Controller
         $user->is_active = 0;
 
         $user->update();
+
         unlink(public_path()  . $user->userPhoto->path);
 
         Photo::findorFail($user->userPhoto->id)->delete();
-        $user->delete();
 
+        $user->delete();
 
         return redirect('/');
     }
