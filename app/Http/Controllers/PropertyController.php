@@ -38,10 +38,11 @@ class PropertyController extends Controller
 
 //        $units = Units::where('user_id', Auth::user()->id)->get();
         $units = Auth::user()->properties()->get();
+//       echo $units;
 //        $photo = Auth::user()->Unitphotos()->first();
-        $photos = Photo::where('imageable_id','=',Auth::user()->id)
-                ->where('imageable_type','=','App\Unit')->get();
-
+//        $photos = Photo::where('imageable_id','=',Auth::user()->id)
+//                ->where('imageable_type','=','App\Unit')->get();
+//        return dd($units);
 
         return view('units.my-properties',compact('units'));
     }
@@ -166,6 +167,9 @@ class PropertyController extends Controller
         $user= Auth::user();
 
         $inputs = $request->all();
+
+//        return $inputs;
+
         $inputs['user_id'] = $user->id;
         $inputs['israting'] = !empty($request->israting) ? 1 : 0;
         $features               = $request->input('property_features');
@@ -183,6 +187,17 @@ class PropertyController extends Controller
         }
 
 
+
+
+
+        $inputs['property_features'] = $all_features;
+
+        $unit = $user->properties()->create($inputs);
+
+        $featured = new Featured();
+
+        $featured->featured()->create(['user_id'=>$user->id,'unit_id'=>$unit->id]);
+
         if($files = $request->file('file')){
             $all_files = "";
 
@@ -191,7 +206,7 @@ class PropertyController extends Controller
             foreach($files as $file){
 
                 $photo['path'] = time() . $file->getClientOriginalName();
-                $photo['imageable_id'] = $user->id;
+                $photo['imageable_id'] = $unit->id;
                 $photo['imageable_type'] = 'App\Unit';
 
                 $file->move('images', $photo['path']);
@@ -208,18 +223,9 @@ class PropertyController extends Controller
             $inputs['photos'] = $all_files;
         }
 
+//        return redirect('/');
 
-        $inputs['property_features'] = $all_features;
-
-        $unit = $user->properties()->create($inputs);
-
-        $featured = new Featured();
-
-        $featured->featured()->create(['user_id'=>$user->id,'unit_id'=>$unit->id]);
-
-        return redirect('/');
-
-
+        return $this->myProperties();
 
 //        $unit = Units::create($inputs);
 
@@ -369,7 +375,7 @@ class PropertyController extends Controller
             foreach($files as $file){
 
                 $photo['path'] = time() . $file->getClientOriginalName();
-                $photo['imageable_id'] = Auth::user()->id;
+                $photo['imageable_id'] = $id;
                 $photo['imageable_type'] = 'App\Unit';
 
                 $file->move('images', $photo['path']);
@@ -409,19 +415,27 @@ class PropertyController extends Controller
         //
 
 
-        $unit = Units::findOrFail($id)->limit(1)->get();
+        Units::findOrFail($id)->delete();
+
+
+        $photos = Photo::Where('imageable_id', '=', $id)->where('imageable_type','=','App\Unit')->get();
 
 
 
-//        $unitPhoto = $unit->photos;
+        if($photos){
+            foreach($photos as $photo){
 
+                unlink(public_path() . $photo->path);
+                Photo::findOrFail($photo->id)->delete();
+            }
+
+//            echo $photos;
 //
-//        return $this->myProperties();
-//
-        unlink(public_path() . $unit->photos->path);
-        $unit->delete();
+        }
 
-        return $this->myProperties();
+
+
+        return redirect('/my-properties');
     }
 
 

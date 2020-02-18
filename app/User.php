@@ -37,7 +37,9 @@ class User extends Authenticatable
     public function Unitphotos(){
        return $this->hasMany('App\Photo', 'imageable_id');
     }
-
+    public function properties(){
+        return $this->hasMany('App\Unit');
+    }
 
 
     public function userAddress(){
@@ -52,9 +54,7 @@ class User extends Authenticatable
         return $this->belongsTo('App\Photo','photo_id');
     }
 
-    public function properties(){
-        return $this->hasMany('App\Unit');
-    }
+
 
     public function checkAccountPlan(){
         if($this->role->name == 'Administrator' && $this->is_active == 1){

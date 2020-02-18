@@ -20,7 +20,7 @@ class Unit extends Model
         'Address',
         'property_type',
         'property_features',
-        'Status',
+        'status',
         'beds',
         'baths',
         'area',
@@ -64,10 +64,8 @@ class Unit extends Model
     }
 
     public function propertyStatus(){
-        return $this->belongsTo('App\status', 'Status');
+        return $this->belongsTo('App\status', 'status');
     }
-
-
 
 
 

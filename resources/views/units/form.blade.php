@@ -168,7 +168,7 @@
 
 
 
-                                            {!! Form::textarea('Description',old('Description') ? $unit->Description : '',['class'=>'form-control', 'required']) !!}
+                                            {!! Form::textarea('Description',old('Description'),['class'=>'form-control', 'required']) !!}
 
 
 
@@ -216,8 +216,8 @@
                                                         </div><!-- /.col-md-6 -->
                                                         <div class="col-md-6 col-sm-6">
                                                             <div class="form-group">
-                                                                <label for="Status">Status</label>
-                                                                <select name="Status" id="submit-status">
+                                                                <label for="status">Status</label>
+                                                                <select name="status" id="submit-status">
                                                                     @foreach($status as $key=>$stat)
                                                                         <option value="{{$key}}">{{$stat}}</option>
                                                                     @endforeach
