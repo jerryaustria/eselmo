@@ -51,6 +51,13 @@ class Unit extends Model
         return $this->hasOne('App\Photo','imageable_id');
     }
 
+
+//    February 18 2020
+    public function unitPhotos(){
+        return $this->hasMany('App\Photo','imageable_id');
+    }
+
+
     public function tags(){
         return $this->morphToMany('App\Tag','taggable');
     }

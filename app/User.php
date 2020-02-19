@@ -34,9 +34,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function Unitphotos(){
-       return $this->hasMany('App\Photo', 'imageable_id');
-    }
+//    public function Unitphotos(){
+//       return $this->hasMany('App\Photo', 'imageable_id');
+//    }
+
     public function properties(){
         return $this->hasMany('App\Unit');
     }

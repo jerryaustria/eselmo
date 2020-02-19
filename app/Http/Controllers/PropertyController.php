@@ -36,15 +36,13 @@ class PropertyController extends Controller
 
     public function myProperties(){
 
-//        $units = Units::where('user_id', Auth::user()->id)->get();
-        $units = Auth::user()->properties()->get();
-//       echo $units;
-//        $photo = Auth::user()->Unitphotos()->first();
-//        $photos = Photo::where('imageable_id','=',Auth::user()->id)
-//                ->where('imageable_type','=','App\Unit')->get();
-//        return dd($units);
+
+        $units = Auth::user()->properties()->paginate(10);
+
+//        $paginateUnits = $units->paginate(2);
 
         return view('units.my-properties',compact('units'));
+
     }
 
 
@@ -166,6 +164,7 @@ class PropertyController extends Controller
 
         $user= Auth::user();
 
+
         $inputs = $request->all();
 
 //        return $inputs;
@@ -223,9 +222,9 @@ class PropertyController extends Controller
             $inputs['photos'] = $all_files;
         }
 
-//        return redirect('/');
+        return redirect('/my-properties');
 
-        return $this->myProperties();
+//        return $this->myProperties();
 
 //        $unit = Units::create($inputs);
 

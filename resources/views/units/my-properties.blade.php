@@ -67,8 +67,9 @@
                                         @foreach($units as $unit)
                                             <tr>
                                                 <td class="image">
-                                                    <a href="property-detail.html"><img alt="" src="assets/img/properties/property-04.jpg"></a>
-{{--                                                    <a href="property-detail.html"><img alt="" src="/images/{{$user->photos ? $user->photos->path->first() : 'no user photo '}}"></a>--}}
+{{--                                                    <a href="property-detail.html"><img alt="" src="assets/img/properties/property-04.jpg"></a>--}}
+
+                                                    <a href="property-detail.html"><img alt="" src="{{$unit->unitPhotos->first()->path ? $unit->unitPhotos->first()->path : 'no user photo '}}"></a>
                                                 </td>
                                                 <td><div class="inner">
 
@@ -84,7 +85,7 @@
                                                     <figure>{{$unit->propertyStatus->name}}</figure>
 
                                                 </td>
-                                                <td>{{$unit->created_at}}</td>
+                                                <td>{{$unit->created_at->diffForHumans()}}</td>
                                                 <td>236</td>
                                                 <td class="actions">
                                                     <a href="{{route('Units.edit', $unit->id)}}" class="edit"><i class="fa fa-pencil"></i>Edit</a>
@@ -98,13 +99,15 @@
                             </div><!-- /.table-responsive -->
                             <!-- Pagination -->
                             <div class="center">
-                                <ul class="pagination">
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                </ul><!-- /.pagination-->
+                                {{$units->render()}}
+{{--                                <ul class="pagination">--}}
+
+{{--                                    <li class="active"><a href="#">1</a></li>--}}
+{{--                                    <li><a href="#">2</a></li>--}}
+{{--                                    <li><a href="#">3</a></li>--}}
+{{--                                    <li><a href="#">4</a></li>--}}
+{{--                                    <li><a href="#">5</a></li>--}}
+{{--                                </ul><!-- /.pagination-->--}}
                             </div><!-- /.center-->
                         </div><!-- /.my-properties -->
                     </section><!-- /#my-properties -->
