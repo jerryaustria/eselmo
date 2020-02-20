@@ -170,6 +170,8 @@
 
                                             {!! Form::textarea('Description',old('Description'),['class'=>'form-control', 'required']) !!}
 
+{{--                                        @include('includes.tinyeditor')--}}
+
 
 
                                         <small class="error">{{$errors->first('Description')}}</small>

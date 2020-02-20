@@ -13,6 +13,7 @@ use App\Unit as Units;
 use App\FeaturedUnit as Featured;
 use App\propertyFetures as Features;
 use App\Http\Requests\CreateUnitRequest;
+use App\Photo as Photos;
 use Carbon\Carbon;
 
 class PropertyController extends Controller
@@ -435,6 +436,30 @@ class PropertyController extends Controller
 
 
         return redirect('/my-properties');
+    }
+
+    public  function deleteSelectedProperties(Request $request){
+
+        $units = Units::findOrFail($request->checkboxSelectedProperties);
+
+        foreach($units as $unit){
+            $photos = Photos::where('imageable_id','=',$unit->id)->where('imageable_type','=','App\Unit')->get();
+//            return dd($photo);
+            if($photos){
+                foreach($photos as $photo){
+                    unlink(public_path() . $photo->path);
+                    $photo->delete();
+                }
+
+            }
+
+            $unit->delete();
+
+        }
+
+      return redirect()->back();
+
+
     }
 
 

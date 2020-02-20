@@ -41,6 +41,15 @@ Route::get('Units/{user_id}/delete', 'PropertyController@destroy')->name('Units.
 
 Route::resource('Units', 'PropertyController');
 
+//Route::resource('Units','PropertyController',['name'=>[
+//    'index'=>'units.index',
+//    'create'=>'units.create',
+//    'store'=>'units.store',
+//    'edit'=>'units.edit',
+//    'myProperties'=>'units.myproperties'
+//]]);
+
+Route::delete('/delete/SelectedProperties','PropertyController@deleteSelectedProperties');
 
 //USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ USERS
 Route::resource('dashboard/users','adminUsersController');

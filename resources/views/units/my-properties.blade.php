@@ -9,9 +9,10 @@
 
 @section('body')
     <body class="page-sub-page page-my-properties page-account" id="page-top">
-    @endsection
+@endsection
 
-    @section('title')
+
+ @section('title')
         <span>My Properties</span>
 @endsection
 
@@ -50,11 +51,46 @@
                         <header><h1>My Properties</h1></header>
                         <div class="my-properties">
                             <div class="table-responsive">
+
+{{-- Form --}}
+                                <form action="/delete/SelectedProperties" method="POST">
+                                    {{csrf_field()}} {{method_field('delete')}}
+
+                                <div class="form-inline">
+{{--                                    <div class="form-group">--}}
+{{--                                        <input type="checkbox" name="checkboxMyProperties" id="checkboxMyProperties" class="form-control">--}}
+{{--                                        <label for="checkboxMyProperties">Check All</label>--}}
+{{--                                    </div>--}}
+                                    <div class="form-group" id="deleteIcon">
+                                         <button type="submit" style="color:red; background:transparent; border:0"><i class="delete fa fa-trash-o"></i> Delete</button>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <select name="numberOfPropertyList" id="numberOfPropertyList" class="form-control">
+                                            <option>5</option>
+                                            <option>10</option>
+                                            <option>20</option>
+                                            <option>30</option>
+                                            <option>40</option>
+                                            <option>50</option>
+                                        </select>
+
+                                    </div>
+
+
+                                </div>
+
+
+
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>Property</th>
+                                        <th style="width: 40px;">
+
+                                                <input type="checkbox" name="checkboxMyProperties" id="checkboxMyProperties" class="form-control">
+                                        </th>
                                         <th></th>
+                                        <th>Property</th>
                                         <th>Type</th>
                                         <th>Date Added</th>
                                         <th>Views</th>
@@ -66,10 +102,11 @@
                                     @isset($units)
                                         @foreach($units as $unit)
                                             <tr>
+                                                <td><input type="checkbox" name="checkboxSelectedProperties[]" class="form-control checkBoxes" value="{{$unit->id}}" /></td>
                                                 <td class="image">
 {{--                                                    <a href="property-detail.html"><img alt="" src="assets/img/properties/property-04.jpg"></a>--}}
 
-                                                    <a href="property-detail.html"><img alt="" src="{{$unit->unitPhotos->first()->path ? $unit->unitPhotos->first()->path : 'no user photo '}}"></a>
+                                                    <a href="property-detail.html"><img alt="" src="{{$unit->unitPhotos->first() ? $unit->unitPhotos->first()->path : asset('assets/img/properties/property-04.jpg')}}"></a>
                                                 </td>
                                                 <td><div class="inner">
 
@@ -96,6 +133,10 @@
                                     @endisset
                                     </tbody>
                                 </table>
+
+                                </form>
+
+
                             </div><!-- /.table-responsive -->
                             <!-- Pagination -->
                             <div class="center">
@@ -117,4 +158,22 @@
         </div><!-- /.container -->
     </div>
     <!-- end Page Content -->
+@endsection
+
+@section('footer_script')
+    <script>
+        $(document).ready(function(){
+            $('#checkboxMyProperties').click(function(){
+                if(this.checked){
+                    $('.checkBoxes').each(function(){
+                        this.checked = true;
+                    });
+                }else{
+                    $('.checkBoxes').each(function(){
+                        this.checked = false;
+                    });
+                }
+            });
+        });
+    </script>
 @endsection
