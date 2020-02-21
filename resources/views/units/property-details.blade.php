@@ -273,11 +273,11 @@
                                             <div class="property">
                                                 <a href="property-detail.html">
                                                     <div class="property-image">
-                                                        <img alt="" src="{{$similar_unit->photo->path ?? '../assets/img/properties/property-06.jpg'}}">
+                                                        <img alt="" src="{{$similar_unit->unitphoto->path ?? '../assets/img/properties/property-06.jpg'}}">
                                                     </div>
                                                     <div class="overlay">
                                                         <div class="info">
-                                                            <div class="tag price">$ 11,000</div>
+                                                            <div class="tag price">{{$similar_unit->price}}</div>
                                                             <h3>3398 Lodgeville Road</h3>
                                                             <figure>Golden Valley, MN 55427</figure>
                                                         </div>
