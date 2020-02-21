@@ -14,7 +14,9 @@ use App\FeaturedUnit as Featured;
 use App\propertyFetures as Features;
 use App\Http\Requests\CreateUnitRequest;
 use App\Photo as Photos;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+
 
 class PropertyController extends Controller
 {
@@ -40,6 +42,9 @@ class PropertyController extends Controller
 
         $units = Auth::user()->properties()->paginate(10);
 
+//        return $units;
+
+
 //        $paginateUnits = $units->paginate(2);
 
         return view('units.my-properties',compact('units'));
@@ -49,9 +54,16 @@ class PropertyController extends Controller
 
     public function index()
     {
-        //
 
-//        return Carbon::now()->addDays(10)->diffForHumans();
+
+    }
+
+
+
+    public function create()
+    {
+
+        //        return Carbon::now()->addDays(10)->diffForHumans();
 //        return Carbon::now()->subMonth(5)->diffForHumans();
 //        return Carbon::now()->yesterday()->diffForHumans();
 //        return Carbon::now()->yesterday();
@@ -67,7 +79,7 @@ class PropertyController extends Controller
 
 
         $all_features = Features::where('created_by','=', 0)
-                        ->orWhere('created_by','=',$user->id)->get();
+            ->orWhere('created_by','=',$user->id)->get();
 
         $data = [];
         $data['user']               = $user;
@@ -76,81 +88,9 @@ class PropertyController extends Controller
         $data['property_features']  =  $all_features;
         $data['status']             =$all_status;
 
-//        return view('units/form',compact('user', $cities));
-
         return view('units/form',$data);
 
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request, Units $unit)
-    {
-
-//        $user= Auth::user();
-//        $data = [];
-//
-//        $data['title'] = $request->input('title');
-//        $data['user_id'] = $user->id;
-//        $data['price'] = $request->input('price');
-//        $data['Description'] = $request->input('submit-description');
-//        $data['Cities'] = $request->input('type-location');
-//        $data['property_type'] = $request->input('type-property');
-//        $data['status'] = $request->input('type-status');
-//        $data['beds'] = $request->input('Beds');
-//        $data['baths'] = $request->input('Baths');
-//        $data['area'] = $request->input('area');
-//        $data['garages'] = $request->input('garages');
-//        $data['Address'] = $request->input('address');
-//        $data['map_lat'] = $request->input('latitude');
-//        $data['map_lon'] = $request->input('longitude');
-//        $data['israting'] = !empty($request->input('rating')) ? 1 : 0;
-//        date_default_timezone_set('Asia/Manila');
-//        $features = $request->input('property_features');
-//        $all_features ="";
-//
-//        if(!empty($features) && count($features) > 0){
-//            foreach($features as $selected_features){
-//                if(!next($features)){
-//                    $all_features .= $selected_features ;
-//                }else{
-//                    $all_features .= $selected_features . "|";
-//                }
-//
-//            }
-//        }
-//
-//
-//        $data['property_features'] = $all_features;
-//        $data['created_at'] =  date('Y-m-d H:i:s', time());
-//
-//        if( $request->isMethod('post') )
-//        {
-//            $this->validate(
-//                $request,
-//                [
-//                    'title'              => 'required|min:5',
-//                    'price'             => 'required:required|regex:/^\d+(\.\d{1,2})?$/',
-//                    'submit-description'=>'required|min:10',
-//                    'address'           => 'required|min:5',
-//                    'Beds'              => 'required',
-//                    'type-location'     => 'required',
-//                    'Baths'              => 'required'
-//                ]
-//            );
-//
-//
-//
-//            $unit->insert($data);
-//
-//            return redirect('/');
-//
-//        }
-//
-//        return redirect('/', $data);
     }
 
     /**
@@ -171,7 +111,10 @@ class PropertyController extends Controller
 //        return $inputs;
 
         $inputs['user_id'] = $user->id;
+        $inputs['hash_id'] = rand(time(), 9999);
+
         $inputs['israting'] = !empty($request->israting) ? 1 : 0;
+
         $features               = $request->input('property_features');
         $all_features ="";
 
@@ -187,9 +130,6 @@ class PropertyController extends Controller
         }
 
 
-
-
-
         $inputs['property_features'] = $all_features;
 
         $unit = $user->properties()->create($inputs);
@@ -198,10 +138,11 @@ class PropertyController extends Controller
 
         $featured->featured()->create(['user_id'=>$user->id,'unit_id'=>$unit->id]);
 
-        if($files = $request->file('file')){
-            $all_files = "";
 
-//            return dd($files);
+
+
+        if($files = $request->file('file')){
+//            $all_files = "";
 
             foreach($files as $file){
 
@@ -211,16 +152,41 @@ class PropertyController extends Controller
 
                 $file->move('images', $photo['path']);
 
-                $photoID = Photo::create($photo);
+                Photo::create($photo);
 
-                if(!next($files)){
-                    $all_files .= $photoID->id;
-                }else{
-                    $all_files .= $photoID->id . "|";
-                }
+//                $photoID = Photo::create($photo);
+//
+//                if(!next($files)){
+//                    $all_files .= $photoID->id;
+//                }else{
+//                    $all_files .= $photoID->id . "|";
+//                }
             }
 
-            $inputs['photos'] = $all_files;
+//            $inputs['photos'] = $all_files;
+        }
+
+        if($files_flr = $request->file('floorplan_photos')){
+
+            foreach($files_flr as $file){
+
+                $photo_flr['path'] = time() . $file->getClientOriginalName();
+                $photo_flr['imageable_id'] = $unit->id;
+                $photo_flr['imageable_type'] = 'App\Unit';
+                $photo_flr['remark'] = 'floorplan';
+
+                $file->move('images', $photo_flr['path']);
+
+                Photo::create($photo_flr);
+
+//                if(!next($files)){
+//                    $all_floorplan .= $photoID->id;
+//                }else{
+//                    $all_floorplan .= $photoID->id . "|";
+//                }
+            }
+
+//            $inputs['floorplan_photos'] = $all_floorplan;
         }
 
         return redirect('/my-properties');
@@ -293,9 +259,54 @@ class PropertyController extends Controller
      */
 
 
-    public function show($id)
+    public function show($slug)
     {
         //
+//        $unit = Units::findBySlugOrFail($slug)->first();
+        $unit = Units::where('slug','=',$slug)
+                ->orWhere('id',$slug)->first();
+
+//        return $unit->user_id;
+
+        $owner_units = Units::where('user_id','=',$unit->user_id)->get();
+//        $owner_units = $unit->userHasManyUnits()->get();
+
+
+
+
+        $photos = $unit->unitPhotos()->get();
+
+        $flrPlan= [];
+
+        if($photos){
+            foreach($photos as $flrplanPhotos){
+                if(!empty($flrplanPhotos->remark) && $flrplanPhotos->remark == 'floorplan'){
+                    $flrPlan[] = $flrplanPhotos->path;
+
+                }
+            }
+
+
+        }
+
+
+
+        $property_selected_features = explode('|',$unit->property_features);
+
+        if(count($property_selected_features) > 0){
+                foreach($property_selected_features as $feature){
+
+                    $myFeatures[] = Features::findOrFail($feature);
+                }
+        }
+
+
+
+//        return $myFeatures;
+
+
+        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units'));
+
     }
 
     /**
@@ -304,20 +315,24 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($hash_id)
     {
         //
 
 //        return $id;
 
-
-        $unit = Units::findOrFail($id);
+        $unit = Units::where('hash_id','=',$hash_id)->orWhere('slug',$hash_id)->first();
+//        return $unit->property_features;
+//        return $unit;
+//        $unit = Units::findBySlugOrFail($hash_id);
 
         $cities = Cities::pluck('name','id');
         $property_type = propertyType::pluck('name','id')->all();
         $status = Status::pluck('name','id');
         $property_features = Features::pluck('name', 'id');
+
         $property_selected_features = explode('|',$unit->property_features);
+
 
 //        return $property_selected_features;
 
@@ -456,7 +471,6 @@ class PropertyController extends Controller
             $unit->delete();
 
         }
-
       return redirect()->back();
 
 

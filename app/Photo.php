@@ -10,7 +10,7 @@ class Photo extends Model
     protected $uploads = '/images/';
 
     protected $fillable =[
-        'path','imageable_id','imageable_type',
+        'path','imageable_id','imageable_type','remark',
         ];
 
     public function imageable()

@@ -5,14 +5,37 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Cviebrock\EloquentSluggable\Sluggable;
+
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+
+use Cohensive\Embed\Facades\Embed;
 
 class Unit extends Model
 {
     use SoftDeletes;
+    use Sluggable;
+    use SluggableScopeHelpers;
+
     protected $table='units';
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'Title'
+            ]
+        ];
+    }
 
     protected $fillable= [
         'user_id',
+        'hash_id',
         'country_id',
         'Title',
         'Description',
@@ -29,7 +52,8 @@ class Unit extends Model
         'map_lat',
         'map_lon',
         'price',
-        'photos',
+        'remark',
+        'video'
     ];
     //
     public function getTheMaxAmount()
@@ -40,6 +64,9 @@ class Unit extends Model
     public function user(){
         return $this->belongsTo('App\User','user_id');
     }
+
+
+
 
     public function photos(){
         return $this->morphMany('App\Photo', 'imageable_id');
@@ -72,6 +99,16 @@ class Unit extends Model
 
     public function propertyStatus(){
         return $this->belongsTo('App\status', 'status');
+    }
+
+    public function getVideoHtmlAttribute(){
+        $embed = Embed::make($this->video)->parseUrl();
+
+        if(!$embed)
+            return '';
+
+        $embed->setAttribute(['width'=>400]);
+        return $embed->getHtml();
     }
 
 

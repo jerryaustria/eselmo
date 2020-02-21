@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 {{--    <title>{{ config('app.name', 'Eselmo') }}</title>--}}
-    <title>Eselmo - @yield('headerTitle')</title>
+    <title>Eselmo | @yield('headerTitle')</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" type="text/css">
     <link href="https://fonts.gobogleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @yield('headerlink')
+    @yield('headerscript')
 
 <style>
     @yield('style')
@@ -146,9 +147,10 @@
 <script type="text/javascript" src="{{asset('assets/js/draggable-0.1.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/jquery.slider.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/js/custom.js')}}"></script>
+
 <!--[if gt IE 8]>
 <script type="text/javascript" src="{{asset('assets/js/ie.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/common.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/common.js')}}"></script>
 <![endif]-->
 <script>
     $(window).load(function(){
@@ -156,6 +158,8 @@
     });
 
 </script>
+
+
     @yield('footer_script')
 
 </body>

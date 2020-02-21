@@ -164,6 +164,11 @@ return [
 
         UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
+
+//        Youtueb and video
+
+        Cohensive\Embed\EmbedServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -177,6 +182,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
 
     ],
 
@@ -230,6 +236,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Image' => Intervention\Image\Facades\Image::class,
+
+//        youtube and videos
+        'Embed' => Cohensive\Embed\Facades\Embed::class,
 
     ],
 

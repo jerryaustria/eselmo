@@ -18,6 +18,14 @@
     <body class="page-sub-page page-submit" id="page-top">
 @endsection
 
+@section('headerscript')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/themes/fa/theme.js"></script>
+
+
+
+@endsection
+
 
 
 @section('content')
@@ -304,14 +312,32 @@
                                     <div class="center">
                                         <div class="form-group">
 
-
-                                                {!! Form::file('file[]',['class'=>'file','data-show-upload'=>'false','data-show-caption'=>'false','data-show-remove'=>'false','accept'=>'image/jpeg,image/png','data-browse-class'=>'btn btn-default','data-browse-label'=>'Browse Images','multiple'=>true,'id'=>'file-upload']) !!}
-
+                                                {!! Form::file('file[]',['class'=>'file','data-show-upload'=>'false','data-show-caption'=>'false','data-show-caption'=>'false','data-show-remove'=>'false','accept'=>'image/jpeg,image/png','data-browse-class'=>'btn btn-default','data-browse-label'=>'Browse Images','multiple'=>true,'id'=>'file-upload']) !!}
 
 {{--                                            <input id="file-upload" type="file" class="file" multiple="true" data-show-upload="false" data-show-caption="false" data-show-remove="false" accept="image/jpeg,image/png" data-browse-class="btn btn-default" data-browse-label="Browse Images">--}}
                                             <figure class="note"><strong>Hint:</strong> You can upload all images at once!</figure>
                                         </div>
                                     </div>
+                                </section>
+
+                                <section class="block" id="gallery">
+                                    <header><h2>Floor Plans</h2></header>
+                                    <div class="center">
+                                        <div class="form-group">
+                                            <input id="floorplan_photos" name="floorplan_photos[]" type="file" class="file" multiple="true" data-show-upload="false" data-show-caption="false" data-show-remove="false" accept="image/jpeg,image/png" data-browse-class="btn btn-default" data-browse-label="Browse Images">
+
+                                            <figure class="note"><strong>Hint:</strong> You can upload all images at once!</figure>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <div class="form-group">
+                                        <label for="video">Video:</label>
+                                        <input type="text" class="form-control" id="video" value="{{old('video')}}" name="video">
+                                        <figure>Paste the video link here</figure>
+                                        <small class="error">{{$errors->first('video')}}</small>
+                                    </div><!-- /.form-group -->
                                 </section>
 
                                 <section id="property-features" class="block">
@@ -513,6 +539,9 @@
 
         $(document).ready(function(){
 
+            $("#input-id").fileinput({
+                maxFileCount: 5
+            });
 
             $("#add_feature_button").click(function () {
 
@@ -540,7 +569,40 @@
                     },
                 });
             });
+
+
+
+            var url1 = 'http://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/631px-FullMoon2010.jpg',
+                url2 = 'http://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Earth_Eastern_Hemisphere.jpg/600px-Earth_Eastern_Hemisphere.jpg';
+            $("#input-id").fileinput({
+                initialPreview: [url1, url2],
+                initialPreviewAsData: true,
+                initialPreviewConfig: [
+                    {caption: "Moon.jpg", downloadUrl: url1, size: 930321, width: "120px", key: 1},
+                    {caption: "Earth.jpg", downloadUrl: url2, size: 1218822, width: "120px", key: 2}
+                ],
+                deleteUrl: "/site/file-delete",
+                overwriteInitial: true,
+                maxFileSize: 100,
+                initialCaption: "The Moon and the Earth"
+            });
+
+
+
+
+
+
+
+
+
+
         });
+
+
+
+
+
+
 
     </script>
 @endsection

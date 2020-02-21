@@ -30,23 +30,21 @@ Route::get('/client', 'ClientController@index')->name('index');
 
 Route::get('my-properties','PropertyController@myProperties')->name('myProperties');
 
-//Route::get('/units/edit/{$unit_id}','PropertyController@edit')->name('edit.Unit');
 
-Route::get('/post', 'PropertyController@index')->name('postproperty');
+Route::get('/post', 'PropertyController@create')->name('postproperty');
 
-Route::post('/post', 'PropertyController@store')->name('postproperty');
+//Route::post('/post', 'PropertyController@store')->name('postproperty');
 
 Route::get('/addFeatures', 'PropertyFeaturesController@store');
-Route::get('Units/{user_id}/delete', 'PropertyController@destroy')->name('Units.delete');
+Route::get('Units/{user_id}/delete', 'PropertyController@destroy')->name('Unitsdelete');
 
 Route::resource('Units', 'PropertyController');
 
 //Route::resource('Units','PropertyController',['name'=>[
-//    'index'=>'units.index',
-//    'create'=>'units.create',
-//    'store'=>'units.store',
-//    'edit'=>'units.edit',
-//    'myProperties'=>'units.myproperties'
+//    'index'=>'Units.index',
+//    'create'=>'Units.create',
+//    'store'=>'Units.store',
+//    'edit'=>'Units.edit'
 //]]);
 
 Route::delete('/delete/SelectedProperties','PropertyController@deleteSelectedProperties');

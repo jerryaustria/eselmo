@@ -110,7 +110,7 @@
                                                 </td>
                                                 <td><div class="inner">
 
-                                                        <a href="property-detail.html"><h2>{{$unit->Title}}</h2></a>
+                                                        <a href="{{route('Units.show',$unit->slug ? $unit->slug : $unit->id)}}"><h2>{{$unit->Title}}</h2></a>
                                                         <figure>{{$unit->Address}}</figure>
                                                         <div class="tag price">{{$unit->price}}</div>
                                                     </div>
@@ -125,8 +125,9 @@
                                                 <td>{{$unit->created_at->diffForHumans()}}</td>
                                                 <td>236</td>
                                                 <td class="actions">
-                                                    <a href="{{route('Units.edit', $unit->id)}}" class="edit"><i class="fa fa-pencil"></i>Edit</a>
-                                                    <a href="{{route('Units.delete',['id'=>$unit->id])}}"><i class="delete fa fa-trash-o"></i></a>
+{{--                                                    <a href="{{route('Units.edit', $unit->hash_id)}}" class="edit"><i class="fa fa-pencil"></i>Edit</a>--}}
+                                                    <a href="{{route('Units.edit', $unit->hash_id ? $unit->hash_id : $unit->slug)}}" class="edit"><i class="fa fa-pencil"></i>Edit</a>
+                                                    <a href="{{route('Unitsdelete',$unit->id)}}"><i class="delete fa fa-trash-o"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -140,15 +141,16 @@
                             </div><!-- /.table-responsive -->
                             <!-- Pagination -->
                             <div class="center">
-                                {{$units->render()}}
-{{--                                <ul class="pagination">--}}
+{{--                                {{$units->render()}}--}}
+                                <ul class="pagination">
 
+                                    {{$units->links()}}
 {{--                                    <li class="active"><a href="#">1</a></li>--}}
 {{--                                    <li><a href="#">2</a></li>--}}
 {{--                                    <li><a href="#">3</a></li>--}}
 {{--                                    <li><a href="#">4</a></li>--}}
 {{--                                    <li><a href="#">5</a></li>--}}
-{{--                                </ul><!-- /.pagination-->--}}
+                                </ul><!-- /.pagination-->
                             </div><!-- /.center-->
                         </div><!-- /.my-properties -->
                     </section><!-- /#my-properties -->

@@ -146,7 +146,7 @@ $(document).ready(function($) {
     var ratingOverall = $('.rating-overall');
     if (ratingOverall.length > 0) {
         ratingOverall.raty({
-            path: 'assets/img',
+            path: '../assets/img',
             readOnly: true,
             score: function() {
                 return $(this).attr('data-score');
@@ -156,7 +156,7 @@ $(document).ready(function($) {
     var ratingIndividual = $('.rating-individual');
     if (ratingIndividual.length > 0) {
         ratingIndividual.raty({
-            path: 'assets/img',
+            path: '../assets/img',
             readOnly: true,
             score: function() {
                 return $(this).attr('data-score');
@@ -166,7 +166,7 @@ $(document).ready(function($) {
     var ratingUser = $('.rating-user');
     if (ratingUser.length > 0) {
         $('.rating-user .inner').raty({
-            path: 'assets/img',
+            path: '../assets/img',
             starOff : 'big-star-off.png',
             starOn  : 'big-star-on.png',
             width: 150,
