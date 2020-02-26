@@ -9,7 +9,7 @@ class propertyTypeModel extends Model
     //
     protected $table='property_type_models';
     protected $fillable=[
-        'name',
+        'name', 'photo',
     ];
 
 }

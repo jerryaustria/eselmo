@@ -61,31 +61,94 @@
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
                                 <section id="quick-summary" class="clearfix">
-                                    <header><h2>Quick Summary</h2></header>
-                                    <dl>
-                                        <dt>Location</dt>
-                                        <dd>{{$unit->Cities}}</dd>
-                                        <dt>Price</dt>
-                                        <dd><span class="tag price">Php {{$unit->price}}</span></dd>
-                                        <dt>Property Type:</dt>
-                                        <dd>{{$unit->property_type}}</dd>
-                                        <dt>Status:</dt>
-                                        <dd>{{$unit->status}}</dd>
-                                        <dt>Area:</dt>
-                                        <dd>{{$unit->area}} m<sup>2</sup></dd>
-                                        <dt>Beds:</dt>
-                                        <dd>{{$unit->beds}}</dd>
-                                        <dt>Baths:</dt>
-                                        <dd>{{$unit->baths}}</dd>
-                                        <dt>Garages:</dt>
-                                        <dd>{{$unit->garages}}</dd>
+                                                            <aside id="edit-search">
+                                                                <header><h3>Search Properties</h3></header>
+                                                                <form role="form" id="form-sidebar" class="form-search" action="properties-listing.html">
+                                                                    <div class="form-group">
+                                                                        <select name="type">
+                                                                            <option value="">Status</option>
+                                                                            <option value="1">Rent</option>
+                                                                            <option value="2">Sale</option>
+                                                                        </select>
+                                                                    </div><!-- /.form-group -->
+                                                                    <div class="form-group">
+                                                                        <select name="country">
+                                                                            <option value="">Country</option>
+                                                                            <option value="1">France</option>
+                                                                            <option value="2">Great Britain</option>
+                                                                            <option value="3">Spain</option>
+                                                                            <option value="4">Russia</option>
+                                                                            <option value="5">United States</option>
+                                                                        </select>
+                                                                    </div><!-- /.form-group -->
+                                                                    <div class="form-group">
+                                                                        <select name="city">
+                                                                            <option value="">City</option>
+                                                                            <option value="1">New York</option>
+                                                                            <option value="2">Los Angeles</option>
+                                                                            <option value="3">Chicago</option>
+                                                                            <option value="4">Houston</option>
+                                                                            <option value="5">Philadelphia</option>
+                                                                        </select>
+                                                                    </div><!-- /.form-group -->
+                                                                    <div class="form-group">
+                                                                        <select name="district">
+                                                                            <option value="">District</option>
+                                                                            <option value="1">Manhattan</option>
+                                                                            <option value="2">The Bronx</option>
+                                                                            <option value="3">Brooklyn</option>
+                                                                            <option value="4">Queens</option>
+                                                                            <option value="5">Staten Island</option>
+                                                                        </select>
+                                                                    </div><!-- /.form-group -->
+                                                                    <div class="form-group">
+                                                                        <select name="property-type">
+                                                                            <option value="">Property Type</option>
+                                                                            <option value="1">Apartment</option>
+                                                                            <option value="2">Condominium</option>
+                                                                            <option value="3">Cottage</option>
+                                                                            <option value="4">Flat</option>
+                                                                            <option value="5">House</option>
+                                                                        </select>
+                                                                    </div><!-- /.form-group -->
+                                                                    <div class="form-group">
+                                                                        <div class="price-range">
+                                                                            <input id="price-input" type="text" name="price" value="1000;299000">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <button type="submit" class="btn btn-default">Search Now</button>
+                                                                    </div><!-- /.form-group -->
+                                                                </form><!-- /#form-map -->
+                                                            </aside>
 
-                                        @if($unit->israting)
-                                            <dt>Rating:</dt>
-                                            <dd><div class="rating rating-overall" data-score="4"></div></dd>
-                                        @endif
 
-                                    </dl>
+
+{{--                                    <header><h2>Quick Summary</h2></header>--}}
+{{--                                    <dl>--}}
+{{--                                        <dt>Location</dt>--}}
+{{--                                        <dd>{{$unit->Cities}}</dd>--}}
+{{--                                        <dt>Price</dt>--}}
+{{--                                        <dd><span class="tag price">Php {{$unit->price}}</span></dd>--}}
+{{--                                        <dt>Property Type:</dt>--}}
+{{--                                        <dd>{{$unit->property_type}}</dd>--}}
+{{--                                        <dt>Status:</dt>--}}
+{{--                                        <dd>{{$unit->status}}</dd>--}}
+{{--                                        <dt>Area:</dt>--}}
+{{--                                        <dd>{{$unit->area}} m<sup>2</sup></dd>--}}
+{{--                                        <dt>Beds:</dt>--}}
+{{--                                        <dd>{{$unit->beds}}</dd>--}}
+{{--                                        <dt>Baths:</dt>--}}
+{{--                                        <dd>{{$unit->baths}}</dd>--}}
+{{--                                        <dt>Garages:</dt>--}}
+{{--                                        <dd>{{$unit->garages}}</dd>--}}
+
+{{--                                        @if($unit->israting)--}}
+{{--                                            <dt>Rating:</dt>--}}
+{{--                                            <dd><div class="rating rating-overall" data-score="4"></div></dd>--}}
+{{--                                        @endif--}}
+
+{{--                                    </dl>--}}
                                 </section><!-- /#quick-summary -->
                             </div><!-- /.col-md-4 -->
                             <div class="col-md-8 col-sm-12">
@@ -128,6 +191,10 @@
                                 @endif
                                 <section id="property-map">
                                     <header><h2>Map</h2></header>
+                                    <input type="hidden" id="map_lat" value="{{$unit->map_lat}}">
+                                    <input type="hidden" id="map_lon" value="{{$unit->map_lon}}">
+                                    <input type="hidden" id="map_image" value="">
+
                                     <div class="property-detail-map-wrapper">
                                         <div class="property-detail-map" id="property-detail-map"></div>
                                     </div>
@@ -400,66 +467,111 @@
                 <!-- sidebar -->
                 <div class="col-md-3 col-sm-3">
                     <section id="sidebar">
-                        <aside id="edit-search">
-                            <header><h3>Search Properties</h3></header>
-                            <form role="form" id="form-sidebar" class="form-search" action="properties-listing.html">
-                                <div class="form-group">
-                                    <select name="type">
-                                        <option value="">Status</option>
-                                        <option value="1">Rent</option>
-                                        <option value="2">Sale</option>
-                                    </select>
-                                </div><!-- /.form-group -->
-                                <div class="form-group">
-                                    <select name="country">
-                                        <option value="">Country</option>
-                                        <option value="1">France</option>
-                                        <option value="2">Great Britain</option>
-                                        <option value="3">Spain</option>
-                                        <option value="4">Russia</option>
-                                        <option value="5">United States</option>
-                                    </select>
-                                </div><!-- /.form-group -->
-                                <div class="form-group">
-                                    <select name="city">
-                                        <option value="">City</option>
-                                        <option value="1">New York</option>
-                                        <option value="2">Los Angeles</option>
-                                        <option value="3">Chicago</option>
-                                        <option value="4">Houston</option>
-                                        <option value="5">Philadelphia</option>
-                                    </select>
-                                </div><!-- /.form-group -->
-                                <div class="form-group">
-                                    <select name="district">
-                                        <option value="">District</option>
-                                        <option value="1">Manhattan</option>
-                                        <option value="2">The Bronx</option>
-                                        <option value="3">Brooklyn</option>
-                                        <option value="4">Queens</option>
-                                        <option value="5">Staten Island</option>
-                                    </select>
-                                </div><!-- /.form-group -->
-                                <div class="form-group">
-                                    <select name="property-type">
-                                        <option value="">Property Type</option>
-                                        <option value="1">Apartment</option>
-                                        <option value="2">Condominium</option>
-                                        <option value="3">Cottage</option>
-                                        <option value="4">Flat</option>
-                                        <option value="5">House</option>
-                                    </select>
-                                </div><!-- /.form-group -->
-                                <div class="form-group">
-                                    <div class="price-range">
-                                        <input id="price-input" type="text" name="price" value="1000;299000">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-default">Search Now</button>
-                                </div><!-- /.form-group -->
-                            </form><!-- /#form-map -->
-                        </aside><!-- /#edit-search -->
+
+{{--  MOIDIFCATION DESIGN MOVE THE QUICK SUMMARYinto top right most--}}
+
+                        <section id="quick-summary" class="clearfix">
+                            <header><h2>Quick Summary</h2></header>
+                            <dl>
+                                <dt>Location</dt>
+                                <dd>{{$unit->Cities}}</dd>
+                                <dt>Price</dt>
+                                <dd><span class="tag price">Php {{$unit->price}}</span></dd>
+                                <dt>Property Type:</dt>
+                                <dd>{{$unit->property_type}}</dd>
+                                <dt>Status:</dt>
+                                <dd>{{$unit->status}}</dd>
+                                <dt>Area:</dt>
+                                <dd>{{$unit->area}} m<sup>2</sup></dd>
+                                <dt>Beds:</dt>
+                                <dd>{{$unit->beds}}</dd>
+                                <dt>Baths:</dt>
+                                <dd>{{$unit->baths}}</dd>
+                                <dt>Garages:</dt>
+                                <dd>{{$unit->garages}}</dd>
+
+                                @if($unit->israting)
+                                    <dt>Rating:</dt>
+                                    <dd><div class="rating rating-overall" data-score="4"></div></dd>
+                                @endif
+
+                            </dl>
+                        </section>
+
+                        <!-- /#quick-summary -->
+
+
+{{--  THIS IS THE END OF MODIFICATION FEB 26 2020 MOVING QUICK SUMMARY INTO TOP                       --}}
+
+
+{{--                        <aside id="edit-search">--}}
+{{--                            <header><h3>Search Properties</h3></header>--}}
+{{--                            <form role="form" id="form-sidebar" class="form-search" action="properties-listing.html">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <select name="type">--}}
+{{--                                        <option value="">Status</option>--}}
+{{--                                        <option value="1">Rent</option>--}}
+{{--                                        <option value="2">Sale</option>--}}
+{{--                                    </select>--}}
+{{--                                </div><!-- /.form-group -->--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <select name="country">--}}
+{{--                                        <option value="">Country</option>--}}
+{{--                                        <option value="1">France</option>--}}
+{{--                                        <option value="2">Great Britain</option>--}}
+{{--                                        <option value="3">Spain</option>--}}
+{{--                                        <option value="4">Russia</option>--}}
+{{--                                        <option value="5">United States</option>--}}
+{{--                                    </select>--}}
+{{--                                </div><!-- /.form-group -->--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <select name="city">--}}
+{{--                                        <option value="">City</option>--}}
+{{--                                        <option value="1">New York</option>--}}
+{{--                                        <option value="2">Los Angeles</option>--}}
+{{--                                        <option value="3">Chicago</option>--}}
+{{--                                        <option value="4">Houston</option>--}}
+{{--                                        <option value="5">Philadelphia</option>--}}
+{{--                                    </select>--}}
+{{--                                </div><!-- /.form-group -->--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <select name="district">--}}
+{{--                                        <option value="">District</option>--}}
+{{--                                        <option value="1">Manhattan</option>--}}
+{{--                                        <option value="2">The Bronx</option>--}}
+{{--                                        <option value="3">Brooklyn</option>--}}
+{{--                                        <option value="4">Queens</option>--}}
+{{--                                        <option value="5">Staten Island</option>--}}
+{{--                                    </select>--}}
+{{--                                </div><!-- /.form-group -->--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <select name="property-type">--}}
+{{--                                        <option value="">Property Type</option>--}}
+{{--                                        <option value="1">Apartment</option>--}}
+{{--                                        <option value="2">Condominium</option>--}}
+{{--                                        <option value="3">Cottage</option>--}}
+{{--                                        <option value="4">Flat</option>--}}
+{{--                                        <option value="5">House</option>--}}
+{{--                                    </select>--}}
+{{--                                </div><!-- /.form-group -->--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <div class="price-range">--}}
+{{--                                        <input id="price-input" type="text" name="price" value="1000;299000">--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <button type="submit" class="btn btn-default">Search Now</button>--}}
+{{--                                </div><!-- /.form-group -->--}}
+{{--                            </form><!-- /#form-map -->--}}
+{{--                        </aside>--}}
+
+
+
+                        <!-- /#edit-search -->
+
+
+
+
                         <aside id="featured-properties">
                             <header><h3>Featured Properties</h3></header>
                             <div class="property small">
@@ -522,7 +634,12 @@
 @endsection
 
 @section('footer_script')
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+{{--    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>--}}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&callback=initMap&sensor=false"
+        type="text/javascript"></script>
+
+
+
     <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/infobox.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.raty.min.js')}}"></script>
@@ -535,11 +652,96 @@
 
 
     <script type="text/javascript">
-        var propertyId = 0;
-        google.maps.event.addDomListener(window, 'load', initMap(propertyId));
+
+
+        var propertyId = document.getElementById("unitID");
+        var map_lat = document.getElementById("map_lat").value;
+        var map_lang = document.getElementById("map_lon").value;
+
+
+        alert("{{$unit->propertyType->photo}}");
+
+        // google.maps.event.addDomListener(window, 'load', initMap(propertyId));
+
         $(window).load(function(){
             initializeOwl(false);
+
+
+
+            var subtractPosition = 0;
+            var mapWrapper = $('#property-detail-map.float');
+
+
+            if (document.documentElement.clientWidth > 1200) {
+                subtractPosition = 0.13;
+            }
+            if (document.documentElement.clientWidth < 1199) {
+                subtractPosition = 0.006;
+            }
+            if (document.documentElement.clientWidth < 979) {
+                subtractPosition = 0.001;
+            }
+            if (document.documentElement.clientWidth < 767) {
+                subtractPosition = 0;
+            }
+
+
+            // var mapCenter = new google.maps.LatLng(locations[propertyId][3],locations[propertyId][4]);
+            var mapCenter = new google.maps.LatLng(map_lat,map_lang);
+
+            if ( $("#property-detail-map").hasClass("float") ) {
+
+                mapCenter = new google.maps.LatLng(map_lat,map_lang - subtractPosition);
+                mapWrapper.css('width', mapWrapper.width() + mapWrapper.offset().left )
+            }
+
+            var mapOptions = {
+                zoom: 15,
+                center: mapCenter,
+                disableDefaultUI: false,
+                scrollwheel: false,
+                styles: mapStyles
+            };
+            var mapElement = document.getElementById('property-detail-map');
+            var map = new google.maps.Map(mapElement, mapOptions);
+
+            var pictureLabel = document.createElement("img");
+            // pictureLabel.src = locations[propertyId][7];
+            pictureLabel.src = "../assets/img/property-types/{{$unit->propertyType->photo}}";
+
+            var markerPosition = new google.maps.LatLng(map_lat,map_lang);
+            var marker = new MarkerWithLabel({
+                position: markerPosition,
+                map: map,
+                icon: '../assets/img/marker.png',
+                labelContent: pictureLabel,
+                labelAnchor: new google.maps.Point(50, 0),
+                labelClass: "marker-style"
+            });
+        // });
+
+
+
+    //    end of getting map
+
+
+
+
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 
     <script>

@@ -660,7 +660,7 @@ function drawFooterThumbnails(){
     var rows = 1; // how many rows to display, default = 1
     var thumbnailsPerRow = 1; // how many thumbnails per row to display, default = 1
 
-    $.getScript("assets/js/locations.js", function(){
+    $.getScript("../assets/js/locations.js", function(){
         // Create thumbnail function
         function createThumbnail() {
             for (i = 0; i < rows * thumbnailsPerRow; i++) {
