@@ -234,24 +234,31 @@
                                             </div><!-- /.col-md-7 -->
                                             <div class="col-md-5 col-sm-12">
                                                 <div class="agent-form">
-                                                    <form role="form" id="form-contact-agent" method="post"  class="clearfix">
+
+{{--  Email FROM                                                  --}}
+                                                    <form role="form" id="form-contact-agent" method="GET" action="/quick-contact"  class="clearfix">
+                                                        {{csrf_field()}}
+                                                        <input type="hidden" value="{{$unit->id}}" name="unitID" />
                                                         <div class="form-group">
                                                             <label for="form-contact-agent-name">Your Name<em>*</em></label>
-                                                            <input type="text" class="form-control" id="form-contact-agent-name" name="form-contact-agent-name" required>
+                                                            <input type="text" class="form-control" id="inquiry_name" name="inquiry_name" required {{Auth::check() ? 'value=' . Auth::user()->name . ' readonly=readonly' : ''}}>
                                                         </div><!-- /.form-group -->
                                                         <div class="form-group">
                                                             <label for="form-contact-agent-email">Your Email<em>*</em></label>
-                                                            <input type="email" class="form-control" id="form-contact-agent-email" name="form-contact-agent-email" required>
+                                                            <input type="email" class="form-control" id="inquiry_email" name="inquiry_email" required {{Auth::check() ? 'value=' . Auth::user()->email . ' readonly=readonly' : ''}}>
                                                         </div><!-- /.form-group -->
                                                         <div class="form-group">
                                                             <label for="form-contact-agent-message">Your Message<em>*</em></label>
-                                                            <textarea class="form-control" id="form-contact-agent-message" rows="2" name="form-contact-agent-message" required></textarea>
+                                                            <textarea class="form-control" id="inquiry_message" rows="2" name="inquiry_message" required></textarea>
                                                         </div><!-- /.form-group -->
                                                         <div class="form-group">
                                                             <button type="submit" class="btn pull-right btn-default" id="form-contact-agent-submit">Send a Message</button>
                                                         </div><!-- /.form-group -->
                                                         <div id="form-contact-agent-status"></div>
                                                     </form><!-- /#form-contact -->
+
+{{-- end Email FROM                                                  --}}
+
                                                 </div><!-- /.agent-form -->
                                             </div><!-- /.col-md-5 -->
                                         </section><!-- /.agent-form -->
@@ -271,32 +278,32 @@
 
                                         <div class="col-md-12 ">
                                             <div class="property">
-                                                <a href="property-detail.html">
+                                                <a href="{{route('Units.show',$similar_unit->slug ? $similar_unit->slug : $similar_unit->id)}}">
                                                     <div class="property-image">
                                                         <img alt="" src="{{$similar_unit->unitphoto->path ?? '../assets/img/properties/property-06.jpg'}}">
                                                     </div>
                                                     <div class="overlay">
                                                         <div class="info">
                                                             <div class="tag price">{{$similar_unit->price}}</div>
-                                                            <h3>3398 Lodgeville Road</h3>
-                                                            <figure>Golden Valley, MN 55427</figure>
+                                                            <h3>{{$similar_unit->Title}}</h3>
+                                                            <figure>{{$similar_unit->Address}}</figure>
                                                         </div>
                                                         <ul class="additional-info">
                                                             <li>
                                                                 <header>Area:</header>
-                                                                <figure>240m<sup>2</sup></figure>
+                                                                <figure>{{$similar_unit->area}}m<sup>2</sup></figure>
                                                             </li>
                                                             <li>
                                                                 <header>Beds:</header>
-                                                                <figure>2</figure>
+                                                                <figure>{{$similar_unit->beds}}</figure>
                                                             </li>
                                                             <li>
                                                                 <header>Baths:</header>
-                                                                <figure>2</figure>
+                                                                <figure>{{$similar_unit->baths}}</figure>
                                                             </li>
                                                             <li>
                                                                 <header>Garages:</header>
-                                                                <figure>0</figure>
+                                                                <figure>{{$similar_unit->garages}}</figure>
                                                             </li>
                                                         </ul>
                                                     </div>

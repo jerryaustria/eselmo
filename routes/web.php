@@ -49,6 +49,17 @@ Route::resource('Units', 'PropertyController');
 
 Route::delete('/delete/SelectedProperties','PropertyController@deleteSelectedProperties');
 
+
+
+//END USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Route::get('/quick-contact','PropertyController@send_email');
+
+//EMAIL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
 //USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ USERS
 Route::resource('dashboard/users','adminUsersController');
 
@@ -69,9 +80,13 @@ Route::get('User/delete/{user_id}','UsersController@destroy')->name('deleteUser'
 
 
 
-//END USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+
+
+
+
+//END OF EMAIL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 //admin/users

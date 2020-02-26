@@ -16,17 +16,16 @@ use App\Http\Requests\CreateUnitRequest;
 use App\Photo as Photos;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 
 class PropertyController extends Controller
 {
 
-
-
     public function __construct()
     {
 
-        $this->middleware('auth');
+//        $this->middleware('auth');
 
     }
 
@@ -268,7 +267,7 @@ class PropertyController extends Controller
 
 //        return $unit->user_id;
 
-        $owner_units = Units::where('user_id','=',$unit->user_id)->get();
+        $owner_units = Units::where('user_id','=',$unit->user_id)->limit(10)->get();
 //        $owner_units = $unit->userHasManyUnits()->get();
 
 
@@ -472,6 +471,35 @@ class PropertyController extends Controller
 
         }
       return redirect()->back();
+
+
+    }
+
+    public function send_email(Request $request){
+
+        $inputs = $request->all();
+
+
+        $unit = Units::findOrFail($inputs['unitID'])->limit(1)->first();
+
+//        Return $unit->Title;
+
+
+        $data=[
+            'title'=>'Quick Contact',
+            'name'=>$inputs['inquiry_name'],
+            'fromEmail'=>$inputs['inquiry_email'],
+            'content'=>$inputs['inquiry_message'],
+            'unitID'=>$unit->slug,
+            'inquire_property_name'=>$unit->Title,
+            'inquire_property_address'=>$unit->Address
+        ];
+
+        Mail::send('emails.email',$data, function($message){
+            $message->to('jerryaustria@gmail.com', 'Jerry')->subject('Quick Contact');
+        });
+
+//        return redirect('/');
 
 
     }

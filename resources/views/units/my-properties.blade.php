@@ -106,7 +106,7 @@
                                                 <td class="image">
 {{--                                                    <a href="property-detail.html"><img alt="" src="assets/img/properties/property-04.jpg"></a>--}}
 
-                                                    <a href="property-detail.html"><img alt="" src="{{$unit->unitPhotos->first() ? $unit->unitPhotos->first()->path : asset('assets/img/properties/property-04.jpg')}}"></a>
+                                                    <a href="{{route('Units.show',$unit->slug ? $unit->slug : $unit->id)}}"><img alt="" src="{{$unit->unitPhotos->first() ? $unit->unitPhotos->first()->path : asset('assets/img/properties/property-04.jpg')}}"></a>
                                                 </td>
                                                 <td><div class="inner">
 
