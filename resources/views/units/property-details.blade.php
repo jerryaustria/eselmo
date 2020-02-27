@@ -399,7 +399,7 @@
                                         <li class="comment">
                                             <figure>
                                                 <div class="image">
-                                                    <img alt="" src="assets/img/client-01.jpg">
+                                                    <img alt="" src="../assets/img/client-01.jpg">
                                                 </div>
                                             </figure>
                                             <div class="comment-wrapper">
@@ -421,7 +421,7 @@
                                                 <li class="comment">
                                                     <figure>
                                                         <div class="image">
-                                                            <img alt="" src="assets/img/agent-01.jpg">
+                                                            <img alt="" src="../assets/img/agent-01.jpg">
                                                         </div>
                                                     </figure>
                                                     <div class="comment-wrapper">
@@ -441,7 +441,7 @@
                                         <li class="comment">
                                             <figure>
                                                 <div class="image">
-                                                    <img alt="" src="assets/img/user-02.jpg">
+                                                    <img alt="" src="../assets/img/user-02.jpg">
                                                 </div>
                                             </figure>
                                             <div class="comment-wrapper">
@@ -574,42 +574,26 @@
 
                         <aside id="featured-properties">
                             <header><h3>Featured Properties</h3></header>
-                            <div class="property small">
-                                <a href="property-detail.html">
-                                    <div class="property-image">
-                                        <img alt="" src="assets/img/properties/property-06.jpg">
-                                    </div>
-                                </a>
-                                <div class="info">
-                                    <a href="property-detail.html"><h4>2186 Rinehart Road</h4></a>
-                                    <figure>Doral, FL 33178 </figure>
-                                    <div class="tag price">$ 72,000</div>
-                                </div>
-                            </div><!-- /.property -->
-                            <div class="property small">
-                                <a href="property-detail.html">
-                                    <div class="property-image">
-                                        <img alt="" src="assets/img/properties/property-09.jpg">
-                                    </div>
-                                </a>
-                                <div class="info">
-                                    <a href="property-detail.html"><h4>2479 Murphy Court</h4></a>
-                                    <figure>Minneapolis, MN 55402</figure>
-                                    <div class="tag price">$ 36,000</div>
-                                </div>
-                            </div><!-- /.property -->
-                            <div class="property small">
-                                <a href="property-detail.html">
-                                    <div class="property-image">
-                                        <img alt="" src="assets/img/properties/property-03.jpg">
-                                    </div>
-                                </a>
-                                <div class="info">
-                                    <a href="property-detail.html"><h4>1949 Tennessee Avenue</h4></a>
-                                    <figure>Minneapolis, MN 55402</figure>
-                                    <div class="tag price">$ 128,600</div>
-                                </div>
-                            </div><!-- /.property -->
+
+
+                            @isset($featured_units)
+                                @foreach($featured_units as $featured)
+                                    <div class="property small">
+                                        <a href="{{route('Units.show',$featured->unit_detail->slug ? $featured->unit_detail->slug : $featured->unit_id)}}">
+                                            <div class="property-image">
+{{--                                                <img alt="" src="../assets/img/properties/property-06.jpg">--}}
+                                                <img alt="" src="{{$featured->unit_detail->unitPhoto->path}}">
+                                            </div>
+                                        </a>
+                                        <div class="info">
+                                            <a href="{{route('Units.show',$featured->unit_detail->slug ? $featured->unit_detail->slug : $featured->unit_id)}}"><h4>{{$featured->unit_detail->Title}}</h4></a>
+                                            <figure>{{$featured->unit_detail->Address}}</figure>
+                                            <div class="tag price">P {{$featured->unit_detail->price}}</div>
+                                        </div>
+                                    </div><!-- /.property -->
+                                @endforeach
+                            @endisset
+
                         </aside><!-- /#featured-properties -->
                         <aside id="our-guides">
                             <header><h3>Our Guides</h3></header>
@@ -635,17 +619,19 @@
 
 @section('footer_script')
 {{--    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>--}}
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&callback=initMap&sensor=false"
-        type="text/javascript"></script>
+{{--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&callback=initMap&sensor=false"--}}
+{{--        type="text/javascript"></script>--}}
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&callback=initMap&sensor=false" type="text/javascript"></script>
 
 
 
-    <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/infobox.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.raty.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.fitvids.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/custom-map.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
     <!--[if gt IE 8]>
     <script type="text/javascript" src="{{asset('assets/js/ie.js')}}"></script>
     <![endif]-->
@@ -653,78 +639,76 @@
 
     <script type="text/javascript">
 
-
-        var propertyId = document.getElementById("unitID");
+        // var propertyId = document.getElementById("unitID");
         var map_lat = document.getElementById("map_lat").value;
         var map_lang = document.getElementById("map_lon").value;
+        var map_icon = "{{$unit->propertyType->photo}}";
 
 
-        alert("{{$unit->propertyType->photo}}");
 
+
+        // var propertyId = 0;
         // google.maps.event.addDomListener(window, 'load', initMap(propertyId));
 
+        // var propertyId = 0;
+        // google.maps.event.addDomListener(window, 'load', initMap(map_lat, map_lang, map_icon));
+
         $(window).load(function(){
+
+            initMap(map_lat, map_lang, map_icon);
+
             initializeOwl(false);
 
 
-
-            var subtractPosition = 0;
-            var mapWrapper = $('#property-detail-map.float');
-
-
-            if (document.documentElement.clientWidth > 1200) {
-                subtractPosition = 0.13;
-            }
-            if (document.documentElement.clientWidth < 1199) {
-                subtractPosition = 0.006;
-            }
-            if (document.documentElement.clientWidth < 979) {
-                subtractPosition = 0.001;
-            }
-            if (document.documentElement.clientWidth < 767) {
-                subtractPosition = 0;
-            }
+        {{--    var subtractPosition = 0;--}}
+        {{--    var mapWrapper = $('#property-detail-map.float');--}}
 
 
-            // var mapCenter = new google.maps.LatLng(locations[propertyId][3],locations[propertyId][4]);
-            var mapCenter = new google.maps.LatLng(map_lat,map_lang);
-
-            if ( $("#property-detail-map").hasClass("float") ) {
-
-                mapCenter = new google.maps.LatLng(map_lat,map_lang - subtractPosition);
-                mapWrapper.css('width', mapWrapper.width() + mapWrapper.offset().left )
-            }
-
-            var mapOptions = {
-                zoom: 15,
-                center: mapCenter,
-                disableDefaultUI: false,
-                scrollwheel: false,
-                styles: mapStyles
-            };
-            var mapElement = document.getElementById('property-detail-map');
-            var map = new google.maps.Map(mapElement, mapOptions);
-
-            var pictureLabel = document.createElement("img");
-            // pictureLabel.src = locations[propertyId][7];
-            pictureLabel.src = "../assets/img/property-types/{{$unit->propertyType->photo}}";
-
-            var markerPosition = new google.maps.LatLng(map_lat,map_lang);
-            var marker = new MarkerWithLabel({
-                position: markerPosition,
-                map: map,
-                icon: '../assets/img/marker.png',
-                labelContent: pictureLabel,
-                labelAnchor: new google.maps.Point(50, 0),
-                labelClass: "marker-style"
-            });
-        // });
+        {{--    if (document.documentElement.clientWidth > 1200) {--}}
+        {{--        subtractPosition = 0.13;--}}
+        {{--    }--}}
+        {{--    if (document.documentElement.clientWidth < 1199) {--}}
+        {{--        subtractPosition = 0.006;--}}
+        {{--    }--}}
+        {{--    if (document.documentElement.clientWidth < 979) {--}}
+        {{--        subtractPosition = 0.001;--}}
+        {{--    }--}}
+        {{--    if (document.documentElement.clientWidth < 767) {--}}
+        {{--        subtractPosition = 0;--}}
+        {{--    }--}}
 
 
+        {{--    var mapCenter = new google.maps.LatLng(map_lat,map_lang);--}}
 
-    //    end of getting map
+        {{--    if ( $("#property-detail-map").hasClass("float") ) {--}}
 
+        {{--        mapCenter = new google.maps.LatLng(map_lat,map_lang - subtractPosition);--}}
+        {{--        mapWrapper.css('width', mapWrapper.width() + mapWrapper.offset().left )--}}
+        {{--    }--}}
 
+        {{--    var mapOptions = {--}}
+        {{--        zoom: 15,--}}
+        {{--        center: mapCenter,--}}
+        {{--        disableDefaultUI: false,--}}
+        {{--        scrollwheel: false,--}}
+        {{--        styles: mapStyles--}}
+        {{--    };--}}
+        {{--    var mapElement = document.getElementById('property-detail-map');--}}
+        {{--    var map = new google.maps.Map(mapElement, mapOptions);--}}
+
+        {{--    var pictureLabel = document.createElement("img");--}}
+        {{--    // pictureLabel.src = locations[propertyId][7];--}}
+        {{--    pictureLabel.src = '../assets/img/property-types/{{$unit->propertyType->photo}}';--}}
+
+        {{--    var markerPosition = new google.maps.LatLng(map_lat,map_lang);--}}
+        {{--    var marker = new MarkerWithLabel({--}}
+        {{--        position: markerPosition,--}}
+        {{--        map: map,--}}
+        {{--        icon: '../assets/img/marker.png',--}}
+        {{--        labelContent: pictureLabel,--}}
+        {{--        labelAnchor: new google.maps.Point(50, 0),--}}
+        {{--        labelClass: "marker-style"--}}
+        {{--    });--}}
 
 
         });

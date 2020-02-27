@@ -29,7 +29,8 @@ class CreateUnitRequest extends FormRequest
             'Description'       =>'required|min:10',
             'Address'           => 'required|min:5',
             'beds'              => 'required',
-            'Cities'            => 'required',
+            'city'              => 'required',
+            'zipcode'           => 'required|numeric',
             'baths'              => 'required'
         ];
     }

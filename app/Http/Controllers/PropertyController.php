@@ -107,6 +107,7 @@ class PropertyController extends Controller
 
         $inputs = $request->all();
 
+
 //        return $inputs;
 
         $inputs['user_id'] = $user->id;
@@ -133,11 +134,9 @@ class PropertyController extends Controller
 
         $unit = $user->properties()->create($inputs);
 
-        $featured = new Featured();
+//        $featured = new Featured();
 
-        $featured->featured()->create(['user_id'=>$user->id,'unit_id'=>$unit->id]);
-
-
+//        $featured->featured()->create(['user_id'=>$user->id,'unit_id'=>$unit->id]);
 
 
         if($files = $request->file('file')){
@@ -271,8 +270,6 @@ class PropertyController extends Controller
 //        $owner_units = $unit->userHasManyUnits()->get();
 
 
-
-
         $photos = $unit->unitPhotos()->get();
 
         $flrPlan= [];
@@ -299,12 +296,15 @@ class PropertyController extends Controller
                 }
         }
 
+        $featured_units = Featured::offset(0)->limit(10)->get();
+
+//        return $featured_units[0]->unit_detail->Title;
 
 
 //        return $myFeatures;
 
 
-        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units'));
+        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units','featured_units'));
 
     }
 

@@ -17,6 +17,9 @@ class FeaturedUnit extends Model
         return $this->morphTo();
     }
 
+    public function unit_detail(){
+        return $this->belongsTo('App\Unit','unit_id');
+    }
 
 
 }

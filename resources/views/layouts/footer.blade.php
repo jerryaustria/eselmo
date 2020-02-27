@@ -21,7 +21,7 @@
                             <div class="property small">
                                 <a href="property-detail.html">
                                     <div class="property-image">
-                                        <img alt="" src="assets/img/properties/property-06.jpg">
+                                        <img alt="" src="../assets/img/properties/property-06.jpg">
                                     </div>
                                 </a>
                                 <div class="info">
@@ -33,7 +33,7 @@
                             <div class="property small">
                                 <a href="property-detail.html">
                                     <div class="property-image">
-                                        <img alt="" src="assets/img/properties/property-09.jpg">
+                                        <img alt="" src="../assets/img/properties/property-09.jpg">
                                     </div>
                                 </a>
                                 <div class="info">

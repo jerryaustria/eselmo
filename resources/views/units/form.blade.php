@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{asset('assets/css/magnific-popup.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('assets/css/fileinput.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}" type="text/css">
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&libraries=places&sensor=false" type="text/javascript"></script>
 @endsection
 
 @section('style')
@@ -192,25 +194,40 @@
                                             <div class="col-md-6 col-sm-6">
                                                 <section id="summary">
                                                     <header><h2>Summary</h2></header>
+
                                                     <div class="form-group">
-                                                        <label for="submit-location">Location</label>
+                                                        <label for="local_address">Address</label>
+                                                        <input type="text" class="form-control" id="local_address" value="{{old('local_address')}}" name="local_address">
+                                                        <small class="error">{{$errors->first('Address')}}</small>
+                                                    </div><!-- /.form-group -->
 
-                                                        <select name="Cities" id="submit-location" id="location">
-                                                            <option value disabled>Select City</option>
-                                                            @foreach($cities as $city)
-                                                                <option value="{{$city->id}}">{{$city->name}}</option>
-                                                            @endforeach
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-sm-6">
 
-                                                        </select>
-{{--                                                        <select name="type" id="submit-location">--}}
-{{--                                                            <option value="1">New York</option>--}}
-{{--                                                            <option value="2">Los Angeles</option>--}}
-{{--                                                            <option value="3">Chicago</option>--}}
-{{--                                                            <option value="4">Houston</option>--}}
-{{--                                                            <option value="5">Philadelphia</option>--}}
-{{--                                                        </select>--}}
-                                                        <small class="error">{{$errors->first('type-location')}}</small>
-                                                    </div>
+
+                                                            <div class="form-group">
+                                                                <label for="property-city">City</label>
+
+                                                                <input list="property_city" name="city" value="{{old('city')}}" type="text">
+                                                                <datalist id="property_city" >
+                                                                    @foreach($cities as $city)
+                                                                        <option value="{{$city->name}}">{{$city->name}}</option>
+                                                                    @endforeach
+                                                                </datalist>
+                                                                <small class="error">{{$errors->first('city')}}</small>
+                                                            </div><!-- /.form-group -->
+                                                        </div><!-- /.col-md-6 -->
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="property-zipcode">Zip Code</label>
+
+                                                                <input id="property_zipcode" name="zipcode" value="{{old('zipcode')}}" type="number">
+                                                                <small class="error">{{$errors->first('zipcode')}}</small>
+                                                            </div><!-- /.form-group -->
+                                                        </div><!-- /.col-md-6 -->
+                                                    </div><!-- /.row -->
+
+
                                                     <div class="row">
                                                         <div class="col-md-6 col-sm-6">
                                                             <div class="form-group">
@@ -283,7 +300,7 @@
                                                         <span class="link-arrow geo-location">Get My Position</span>
                                                     </header>
                                                     <div class="form-group">
-                                                        <label for="Address">Address</label>
+                                                        <label for="Address">location Map</label>
                                                         <input type="text" class="form-control" id="Address" value="{{old('Address')}}" name="Address">
                                                         <small class="error">{{$errors->first('Address')}}</small>
                                                     </div><!-- /.form-group -->
@@ -335,7 +352,7 @@
                                     <div class="form-group">
                                         <label for="video">Video:</label>
                                         <input type="text" class="form-control" id="video" value="{{old('video')}}" name="video">
-                                        <figure>Paste the video link here</figure>
+                                        <figure>Add link here</figure>
                                         <small class="error">{{$errors->first('video')}}</small>
                                     </div><!-- /.form-group -->
                                 </section>
@@ -438,20 +455,22 @@
 
 @section('footer_script')
 
-
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>
+{{--    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places"></script>--}}
+{{--    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&libraries=places&sensor=false" type="text/javascript"></script>--}}
     <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/fileinput.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/custom-map.js')}}"></script>
+{{--    <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>--}}
     <script type="text/javascript" src="{{asset('js/common.js')}}"></script>
 
 
     <script>
-        var _latitude = 48.87;
-        var _longitude = 2.29;
+        var _latitude = 14.5699;
+        var _longitude = 120.9858;
 
         google.maps.event.addDomListener(window, 'load', initSubmitMap(_latitude,_longitude));
+
         function initSubmitMap(_latitude,_longitude){
             var mapCenter = new google.maps.LatLng(_latitude,_longitude);
             var mapOptions = {
@@ -466,7 +485,7 @@
             var marker = new MarkerWithLabel({
                 position: mapCenter,
                 map: map,
-                icon: 'assets/img/marker.png',
+                icon: '../assets/img/marker.png',
                 labelAnchor: new google.maps.Point(50, 0),
                 draggable: true
             });
@@ -479,7 +498,8 @@
             });
 
 //      Autocomplete
-            var input = /** @type {HTMLInputElement} */( document.getElementById('address-map') );
+//             var input = /** @type {HTMLInputElement} */( document.getElementById('address-map') );
+            var input = /** @type {HTMLInputElement} */( document.getElementById('Address') );
             var autocomplete = new google.maps.places.Autocomplete(input);
             autocomplete.bindTo('bounds', map);
             google.maps.event.addListener(autocomplete, 'place_changed', function() {
