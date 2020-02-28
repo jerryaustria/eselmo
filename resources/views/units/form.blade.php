@@ -6,10 +6,15 @@
 @section('headerlink')
     <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{asset('assets/css/magnific-popup.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('assets/css/fileinput.min.css')}}" type="text/css">
+{{--    <link rel="stylesheet" href="{{asset('assets/css/fileinput1.min.css')}}" type="text/css">--}}
+    <link rel="stylesheet" href="{{asset('vendor/bootstrap-fileinput-master/css/fileinput.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}" type="text/css">
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&libraries=places&sensor=false" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="{{asset('vendor/dropzone/dropzone.css')}}" type="text/css">
+
+
 @endsection
 
 @section('style')
@@ -23,8 +28,8 @@
 @section('headerscript')
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/themes/fa/theme.js"></script>
-
-
+    <link rel="stylesheet" href="{{asset('vendor/summernote-develop/dist/summernote-bs4.css')}}">
+    <script src="{{asset('vendor/summernote-develop/dist/summernote-bs4.js')}}"></script>
 
 @endsection
 
@@ -172,15 +177,25 @@
                                     </div>
                                     <div class="form-group">
 
-                                        {!! Form::label('Description','Description') !!}
+{{--                                        {!! Form::label('Description','Description') !!}--}}
 {{--                                        <textarea class="form-control" id="submit-description" rows="8" name="Description" value="{{old('Description')}}" required>{{old('--}}
 {{--                                        Description')}}</textarea>--}}
 
 
 
-                                            {!! Form::textarea('Description',old('Description'),['class'=>'form-control', 'required']) !!}
+{{--                                            {!! Form::textarea('Description',old('Description'),['class'=>'form-control', 'required']) !!}--}}
 
-{{--                                        @include('includes.tinyeditor')--}}
+
+
+
+
+                                                <label for="description" class="form-label"><i class="fas fa-pencil-alt prefix"></i> Description</label>
+
+                                        <textarea id="description" name="Description" value="{{old('Description')}}" class="md-textarea summernote"></textarea>
+
+                                                <div class="col-xs-12 text-right"><span id="maxContentPost"></span>
+                                                </div>
+                                                <!--Textarea with icon prefix-->
 
 
 
@@ -329,9 +344,21 @@
                                     <div class="center">
                                         <div class="form-group">
 
-                                                {!! Form::file('file[]',['class'=>'file','data-show-upload'=>'false','data-show-caption'=>'false','data-show-caption'=>'false','data-show-remove'=>'false','accept'=>'image/jpeg,image/png','data-browse-class'=>'btn btn-default','data-browse-label'=>'Browse Images','multiple'=>true,'id'=>'file-upload']) !!}
 
-{{--                                            <input id="file-upload" type="file" class="file" multiple="true" data-show-upload="false" data-show-caption="false" data-show-remove="false" accept="image/jpeg,image/png" data-browse-class="btn btn-default" data-browse-label="Browse Images">--}}
+
+{{--                                                {!! Form::file('file[]',['class'=>'file','data-show-upload'=>'false',--}}
+{{--                                                'data-show-caption'=>'false','data-show-caption'=>'false','data-show-remove'=>'false','data-show-delete'=>'true',--}}
+{{--                                                'accept'=>'image/jpeg,image/png','data-browse-class'=>'btn btn-default','data-browse-label'=>'Browse Images',--}}
+{{--                                                'multiple'=>true,'id'=>'file-upload']) !!}--}}
+
+
+
+                                            <div class="file-loading">
+                                                <input id="file-upload" name="file[]" type="file" multiple accept="image/jpeg,image/png">
+                                            </div>
+
+
+
                                             <figure class="note"><strong>Hint:</strong> You can upload all images at once!</figure>
                                         </div>
                                     </div>
@@ -350,6 +377,18 @@
 
                                 <section>
                                     <div class="form-group">
+
+{{--  Dropzone                                      --}}
+{{--                                        <input type="hidden" id="tempID" >--}}
+{{--                                        <div class="dropzone" id="my-awesome-dropzone">--}}
+{{--                                            <div class="fallback">--}}
+{{--                                                <input id="file" multiple="true" name="file" type="file" multiple>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+
+
+{{--  End of Dropzone                                      --}}
+
                                         <label for="video">Video:</label>
                                         <input type="text" class="form-control" id="video" value="{{old('video')}}" name="video">
                                         <figure>Add link here</figure>
@@ -372,6 +411,7 @@
                                 <hr>
                             </section>
                         </div><!-- /.col-md-9 -->
+
                         <div class="col-md-3 col-sm-3">
                             <aside class="submit-step">
                                 <figure class="step-number">2</figure>
@@ -382,6 +422,9 @@
                                 </div>
                             </aside><!-- /.submit-step -->
                         </div><!-- /.col-md-3 -->
+
+
+
                     </div>
                 </div><!-- /.row -->
                 <div class="row">
@@ -459,10 +502,14 @@
 {{--    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&libraries=places&sensor=false" type="text/javascript"></script>--}}
     <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/js/fileinput.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/js/piexif.js')}}"></script>
+{{--    <script type="text/javascript" src="{{asset('assets/js/fileinput.min.js')}}"></script>--}}
+    <script type="text/javascript" src="{{asset('vendor/bootstrap-fileinput-master/js/fileinput.min.js')}}"></script>
+
     <script type="text/javascript" src="{{asset('assets/js/custom-map.js')}}"></script>
-{{--    <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>--}}
+{{--    <script type="text/javascript" src="{{asset('vendor/dropzone/dropzone.js')}}"></script>--}}
     <script type="text/javascript" src="{{asset('js/common.js')}}"></script>
+    <script src="{{asset('vendor/summernote-develop/dist/summernote-bs4.js')}}" type="text/javascript"></script>
 
 
     <script>
@@ -555,13 +602,130 @@
         // $("#add_feature_button").click(function(e){
         //     e.preventDefault();
         //     alert($("#input_feature").val());
+
         // });
+
+        var idko;
+        function deleteMe(me){
+            $(me).parent().parent().parent().parent().remove();
+        }
+
 
         $(document).ready(function(){
 
-            $("#input-id").fileinput({
-                maxFileCount: 5
+            var btns = '<button type="button" class="kv-cust-btn btn btn-kv btn-secondary" title="Edit" onclick="deleteMe(this)" id="deleteme"><i class="glyphicon glyphicon-edit"></i></button>';
+
+            // $('.kv-cust-btn').on('click', function() {
+            //     // var btn = $(this), key = btn.data('key');
+            //     // console.log(btn);
+            //     alert("hello");
+            // });
+
+
+           idko =  $("#file-upload").fileinput({
+                overwriteInitial: false,
+                maxFileSize: 5000,
+                // initialCaption: "The Moon and the Earth",
+                showCaption: false,
+                showRemove: false,
+                showUpload: false,
+                // maxFilePreviewSize: 10240,
+                otherActionButtons: btns,
+               browseClass: "btn btn-success",
+               browseLabel: "Pick Image",
+               allowedFileExtensions: ["jpg", "JPG", "jpeg", "JPEG","gif","ping","bmp"],
+               allowedFileTypes: ["image"],
+               maxFileCount: 10,
+               browseOnZoneClick:false,
+               showCancel:false
+
+           //     initialPreview: [
+           //         // IMAGE DATA
+           //         "https://kartik-v.github.io/bootstrap-fileinput-samples/samples/Desert.jpg",
+           //         // IMAGE DATA
+           //         "https://kartik-v.github.io/bootstrap-fileinput-samples/samples/Lighthouse.jpg",
+           //         // VIDEO DATA
+           //         "https://kartik-v.github.io/bootstrap-fileinput-samples/samples/small.mp4",
+           //         // OFFICE WORD DATA
+           //         'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/SampleDOCFile_100kb.doc',
+           //         // OFFICE EXCEL DATA
+           //         'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/SampleXLSFile_38kb.xls',
+           //         // OFFICE POWERPOINT DATA
+           //         'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/SamplePPTFile_500kb.ppt',
+           //         // TIFF IMAGE FILE
+           //         'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/multipage_tiff_example.tif',
+           //         // ADOBE ILLUSTRATOR FILE
+           //         'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/sample_ai.ai',
+           //         // ENCAPSULATED POST SCRIPT FILE
+           //         'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/sample_eps.eps',
+           //         // PDF DATA
+           //         'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/pdf-sample.pdf',
+           //         // TEXT DATA
+           //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut mauris ut libero fermentum feugiat eu et dui. Mauris condimentum rhoncus enim, sed semper neque vestibulum id. Nulla semper, turpis ut consequat imperdiet, enim turpis aliquet orci, eget venenatis elit sapien non ante. Aliquam neque ipsum, rhoncus id ipsum et, volutpat tincidunt augue. Maecenas dolor libero, gravida nec est at, commodo tempor massa. Sed id feugiat massa. Pellentesque at est eu ante aliquam viverra ac sed est.",
+           //         // HTML DATA
+           //         '<div class="text-center">' +
+           //         '<h3>Lorem Ipsum</h3>' +
+           //         '<p><em>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</em></p>' +
+           //         '<h5><small>"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</small></h5>' +
+           //         '<hr>' +
+           //         '</div>' +
+           //         '<div class="text-justify">' +
+           //         '<p>' +
+           //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed convallis convallis dolor sed dignissim. Phasellus euismod mauris vel dolor maximus, sed fermentum mauris lobortis. Aliquam luctus, diam in luctus egestas, magna lacus luctus libero, scelerisque mattis ante dolor ac nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse varius orci ultricies massa euismod, at semper turpis fermentum. Quisque vitae augue vel lectus viverra facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla lacinia molestie diam, et volutpat nunc bibendum a. Cras a est sed augue commodo accumsan quis vitae nisi.' +
+           //         '</p>' +
+           //         '<p>' +
+           //         'Nunc sit amet metus et dui aliquet feugiat. Praesent lobortis, ipsum et elementum dignissim, urna libero fringilla justo, at tincidunt nisi mi sed mi. Integer vel est porttitor, tempor tortor non, lobortis felis. Curabitur porttitor nisi et volutpat iaculis. Fusce nec feugiat lectus, vitae ullamcorper lorem. Ut ultrices nunc imperdiet placerat malesuada. Proin commodo erat in egestas maximus.' +
+           //         '</p>' +
+           //         '</div>'
+           //     ],
+           //     initialPreviewAsData: true, // identify if you are sending preview data only and not the raw markup
+           //     initialPreviewFileType: 'image', // image is the default and can be overridden in config below
+           //     initialPreviewDownloadUrl: 'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/{filename}', // includes the dynamic `filename` tag to be replaced for each config
+           //     initialPreviewConfig: [
+           //         {caption: "Desert.jpg", size: 827000, width: "120px", url: "/file-upload-batch/2", key: 1},
+           //         {caption: "Lighthouse.jpg", size: 549000, width: "120px", url: "/file-upload-batch/2", key: 2},
+           //         {
+           //             type: "video",
+           //             size: 375000,
+           //             filetype: "video/mp4",
+           //             caption: "KrajeeSample.mp4",
+           //             url: "/file-upload-batch/2",
+           //             key: 3,
+           //             downloadUrl: 'https://kartik-v.github.io/bootstrap-fileinput-samples/samples/small.mp4', // override url
+           //             filename: 'KrajeeSample.mp4' // override download filename
+           //         },
+           //         {type: "office", size: 102400, caption: "SampleDOCFile_100kb.doc", url: "/file-upload-batch/2", key: 4},
+           //         {type: "office", size: 45056, caption: "SampleXLSFile_38kb.xls", url: "/file-upload-batch/2", key: 5},
+           //         {type: "office", size: 512000, caption: "SamplePPTFile_500kb.ppt", url: "/file-upload-batch/2", key: 6},
+           //         {type: "gdocs", size: 811008, caption: "multipage_tiff_example.tif", url: "/file-upload-batch/2", key: 7},
+           //         {type: "gdocs", size: 375808, caption: "sample_ai.ai", url: "/file-upload-batch/2", key: 8},
+           //         {type: "gdocs", size: 40960, caption: "sample_eps.eps", url: "/file-upload-batch/2", key: 9},
+           //         {type: "pdf", size: 8000, caption: "About.pdf", url: "/file-upload-batch/2", key: 10, downloadUrl: false}, // disable download
+           //         {type: "text", size: 1430, caption: "LoremIpsum.txt", url: "/file-upload-batch/2", key: 11, downloadUrl: false},  // disable download
+           //         {type: "html", size: 3550, caption: "LoremIpsum.html", url: "/file-upload-batch/2", key: 12, downloadUrl: false}  // disable download
+           //     ],
+           //     purifyHtml: true, // this by default purifies HTML data for preview
+           //     uploadExtraData: {
+           //         img_key: "1000",
+           //         img_keywords: "happy, places"
+           //     }
+           // }).on('filesorted', function(e, params) {
+           //     console.log('File sorted params', params);
+           // }).on('fileuploaded', function(e, params) {
+           //     console.log('File uploaded params', params);
+
+
+
+
+
+
             });
+
+
+
+
+
+
 
             $("#add_feature_button").click(function () {
 
@@ -592,31 +756,71 @@
 
 
 
-            var url1 = 'http://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/631px-FullMoon2010.jpg',
-                url2 = 'http://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Earth_Eastern_Hemisphere.jpg/600px-Earth_Eastern_Hemisphere.jpg';
-            $("#input-id").fileinput({
-                initialPreview: [url1, url2],
-                initialPreviewAsData: true,
-                initialPreviewConfig: [
-                    {caption: "Moon.jpg", downloadUrl: url1, size: 930321, width: "120px", key: 1},
-                    {caption: "Earth.jpg", downloadUrl: url2, size: 1218822, width: "120px", key: 2}
-                ],
-                deleteUrl: "/site/file-delete",
-                overwriteInitial: true,
-                maxFileSize: 100,
-                initialCaption: "The Moon and the Earth"
-            });
-
-
-
-
-
-
-
-
-
 
         });
+
+
+        registerSummernote('.summernote', 'Describe your property', 3090, function(max) {
+            $('#maxContentPost').text(max);
+        });
+
+        function registerSummernote(element, placeholder1, max, callbackMax) {
+            $(element).summernote({
+                placeholder:placeholder1,
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
+                toolbar: [
+                    ['style', ['style']],
+                    ['basic', ['fontsize']],
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height',['height', 'undo', 'redo']]
+                ],
+                callbacks: {
+                    onKeydown: function(e) {
+                        var t = e.currentTarget.innerText;
+                        if (t.trim().length >= max) {
+                            //delete key
+                            if (e.keyCode != 8)
+                                e.preventDefault();
+                            // add other keys ...
+                        }
+                    },
+                    onKeyup: function(e) {
+                        var t = e.currentTarget.innerText;
+                        if (typeof callbackMax == 'function') {
+                            callbackMax(max - t.trim().length);
+                        }
+                    },
+                    onPaste: function(e) {
+                        var t = e.currentTarget.innerText;
+                        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                        e.preventDefault();
+                        var all = t + bufferText;
+                        document.execCommand('insertText', false, all.trim().substring(0, 3090));
+                        if (typeof callbackMax == 'function') {
+                            callbackMax(max - t.length);
+                        }
+                    }
+                },
+                // height: 250,
+                minHeight: 150,
+                maxHeight: 300
+            });
+        }
+        $('.note-editable').css('lineHeight','.8');
+
+
+        Dropzone.options.myAwesomeDropzone = {
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            accept: function(file, done) {
+                if (file.name == "justinbieber.jpg") {
+                    done("Naha, you don't.");
+                }
+                else { done(); }
+            }
+        };
+
 
 
 
@@ -625,6 +829,13 @@
 
 
     </script>
+
+
+
+
+
+
+
 @endsection
 
 

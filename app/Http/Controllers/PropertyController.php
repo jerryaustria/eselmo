@@ -286,7 +286,6 @@ class PropertyController extends Controller
         }
 
 
-
         $property_selected_features = explode('|',$unit->property_features);
 
         if(count($property_selected_features) > 0){

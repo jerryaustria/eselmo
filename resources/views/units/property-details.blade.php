@@ -154,7 +154,8 @@
                             <div class="col-md-8 col-sm-12">
                                 <section id="description">
                                     <header><h2>Property Description</h2></header>
-                                    {{$unit->Description}}
+                                    {!!$unit->Description!!}
+
                                 </section><!-- /#description -->
                                 <section id="property-features">
                                     <header><h2>Property Features</h2></header>
