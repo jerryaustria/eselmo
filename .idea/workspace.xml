@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2b0b6dc7-1bd9-4a6f-9465-57689b5905a1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/FeaturedUnit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/FeaturedUnit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PropertyController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreateUnitRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreateUnitRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Unit.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Unit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/custom-map.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/custom-map.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/markerwithlabel_packed.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/markerwithlabel_packed.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/retina-1.1.0.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/retina-1.1.0.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/units/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/units/form.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/units/property-details.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/units/property-details.blade.php" afterDir="false" />
-    </list>
+    <list default="true" id="2b0b6dc7-1bd9-4a6f-9465-57689b5905a1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -309,7 +297,7 @@
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="x" value="1440" />
-    <option name="width" value="714" />
+    <option name="width" value="1440" />
     <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -409,18 +397,17 @@
       <workItem from="1581059182404" duration="111265000" />
       <workItem from="1581910287314" duration="35295000" />
       <workItem from="1582157995972" duration="42310000" />
-      <workItem from="1582508409351" duration="37054000" />
+      <workItem from="1582508409351" duration="37469000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="230050000" />
+    <option name="totallyTimeSpent" value="230465000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1874106" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1874106" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -435,7 +422,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.15542169" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.15542169" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
