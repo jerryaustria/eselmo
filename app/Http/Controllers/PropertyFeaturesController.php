@@ -41,7 +41,6 @@ class PropertyFeaturesController extends Controller
 
 
 
-
         $inputs=$request->all();
 
         $validator = \Validator::make($request->all(),[
@@ -57,10 +56,6 @@ class PropertyFeaturesController extends Controller
 
         $features = Features::create($inputs);
 
-//        $features->name = $request->get('name');
-//        $features->created_by = $request->get('created_by');
-
-//        $features->save();
 
         return response()->json(array('success'=>true,'last_insert'=>$features->id,'name'=>$features->name));
 

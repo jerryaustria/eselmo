@@ -52,9 +52,11 @@ class Unit extends Model
         'israting',
         'map_lat',
         'map_lon',
+        'location_map',
         'price',
         'remark',
-        'video'
+        'video',
+        'allow_comment'
     ];
     //
     public function getTheMaxAmount()

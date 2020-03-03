@@ -417,7 +417,6 @@
                     <!--Body-->
                     <div class="modal-body">
                         <div class="md-form mb-5">
-
                             <input type="text" id="input_feature" name="name" class="form-control validate" >
                             <label data-error="wrong" data-success="right" for="form3">Feature name</label>
                         </div>

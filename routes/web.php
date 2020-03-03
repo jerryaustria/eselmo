@@ -35,8 +35,10 @@ Route::get('/post', 'PropertyController@create')->name('postproperty');
 
 //Route::post('/post', 'PropertyController@store')->name('postproperty');
 
-Route::get('/addFeatures', 'PropertyFeaturesController@store');
+Route::post('/addFeatures', 'PropertyFeaturesController@store');
+
 Route::get('Units/{user_id}/delete', 'PropertyController@destroy')->name('Unitsdelete');
+Route::post('Units/{user_id}/update', 'PropertyController@update')->name('Unitsupdate');
 
 Route::resource('Units', 'PropertyController');
 

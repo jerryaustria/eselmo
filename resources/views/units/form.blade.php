@@ -6,8 +6,8 @@
 @section('headerlink')
     <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{asset('assets/css/magnific-popup.css')}}" type="text/css">
-{{--    <link rel="stylesheet" href="{{asset('assets/css/fileinput1.min.css')}}" type="text/css">--}}
-    <link rel="stylesheet" href="{{asset('vendor/bootstrap-fileinput-master/css/fileinput.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('assets/css/fileinput.min.css')}}" type="text/css">
+{{--    <link rel="stylesheet" href="{{asset('vendor/bootstrap-fileinput-master/css/fileinput.min.css')}}" type="text/css">--}}
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}" type="text/css">
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&libraries=places&sensor=false" type="text/javascript"></script>
@@ -118,11 +118,14 @@
                     </div><!-- /.submit-step -->
                 </aside><!-- /.col-md-3 -->
             </div><!-- /.row -->
-{{--            <form role="form" id="form-submit" class="form-submit" action="{{route('postproperty')}}" method="post">--}}
+            <form role="form" id="form-submit" class="form-submit" action="{{$modify == 0 ? route('Units.store') : route('Unitsupdate',$unit->id)}}" method="POST" role="form" enctype="multipart/form-data">
 {{--                {{var_dump($errors)}}--}}
 
 
-                {!! Form::open(['method'=>'POST', 'action'=>'PropertyController@store','id'=>'form-submit', 'role'=>'form','files'=>true]) !!}
+{{--                {!! Form::open(['method'=>'POST', 'action'=>'PropertyController@store','id'=>'form-submit', 'role'=>'form','files'=>true]) !!}--}}
+
+{{--            {!! Form::model($unit, ['method'=> $modify == 0 ? 'POST' : 'PATCH','action'=> $modify == 0 ? 'PropertyController@store' : ['PropertyController@update',$unit->id], 'files'=>true,'role'=>'form']) !!}--}}
+
 
 
 {{--                {!! Form::label('title','Title:') !!}--}}
@@ -153,7 +156,7 @@
                                                 {!! Form::label('Title','Title')!!}
 
 {{--                                                <input type="text" class="form-control error" id="submit-title" name="title" value="{{old('title')}}" required>--}}
-                                                {!! Form::text('Title',null,['class'=>'form-control error', 'id'=>'submit-title', 'required']) !!}
+                                                {!! Form::text('Title',$modify == 0 ? old('Title') : $unit->Title,['class'=>'form-control error', 'id'=>'submit-title', 'required']) !!}
 
                                                 <small class="error">{{$errors->first('Title')}}</small>
 
@@ -168,7 +171,7 @@
 {{--                                                    <input type="text" class="form-control" id="price" name="price" value="{{old('price')}}" pattern="^\d*(\.\d{2}$)?" required>--}}
 
 
-                                                        {!! Form::text('price',null ,['class'=>'form-control error', 'id'=>'price', 'pattern'=>'^\d*(\.\d{2}$)?', 'required']) !!}
+                                                        {!! Form::text('price',$modify == 0 ? old('price') : $unit->price,['class'=>'form-control error', 'id'=>'price', 'pattern'=>'^\d*(\.\d{2}$)?', 'required']) !!}
 
                                                     <small class="error">{{$errors->first('price')}}</small>
                                                 </div>
@@ -189,9 +192,14 @@
 
 
 
-                                                <label for="description" class="form-label"><i class="fas fa-pencil-alt prefix"></i> Description</label>
+{{--                                                <label for="description" class="form-label"><i class="fas fa-pencil-alt prefix"></i> Description</label>--}}
 
-                                        <textarea id="description" name="Description" value="{{old('Description')}}" class="md-textarea summernote"></textarea>
+{{--                                        <textarea id="description" name="Description" value="This is content" class="md-textarea summernote"></textarea>--}}
+
+
+                                            {!! Form::label('description','Description',['class'=>'form-label']) !!} <i class="fas fa-pencil-alt prefix"></i>
+                                            {!! Form::textarea('Description',old('Description'),['class'=>'md-textarea summernote', 'id'=>'description']) !!}
+
 
                                                 <div class="col-xs-12 text-right"><span id="maxContentPost"></span>
                                                 </div>
@@ -211,8 +219,13 @@
                                                     <header><h2>Summary</h2></header>
 
                                                     <div class="form-group">
-                                                        <label for="local_address">Address</label>
-                                                        <input type="text" class="form-control" id="local_address" value="{{old('local_address')}}" name="local_address">
+{{--                                                        <label for="local_address">Address</label>--}}
+{{--                                                        <input type="text" class="form-control" id="local_address" value="{{old('local_address')}}" name="local_address">--}}
+
+                                                        {!! Form::label('Address','Address') !!}
+                                                        {!! Form::text('Address',$modify == 0 ? old('Address') : $unit->Address,['class'=>'form-control', 'id'=>'address']) !!}
+
+
                                                         <small class="error">{{$errors->first('Address')}}</small>
                                                     </div><!-- /.form-group -->
 
@@ -223,10 +236,10 @@
                                                             <div class="form-group">
                                                                 <label for="property-city">City</label>
 
-                                                                <input list="property_city" name="city" value="{{old('city')}}" type="text">
+                                                                <input list="property_city" name="city" value="{{$modify == 0 ? old('city') : $unit->city}}" type="text">
                                                                 <datalist id="property_city" >
-                                                                    @foreach($cities as $city)
-                                                                        <option value="{{$city->name}}">{{$city->name}}</option>
+                                                                    @foreach($cities as $key=>$city)
+                                                                        <option value="{{$city}}">{{$city}}</option>
                                                                     @endforeach
                                                                 </datalist>
                                                                 <small class="error">{{$errors->first('city')}}</small>
@@ -236,7 +249,7 @@
                                                             <div class="form-group">
                                                                 <label for="property-zipcode">Zip Code</label>
 
-                                                                <input id="property_zipcode" name="zipcode" value="{{old('zipcode')}}" type="number">
+                                                                <input id="property_zipcode" name="zipcode" value="{{$modify == 0 ? old('zipcode') : $unit->zipcode}}" type="number">
                                                                 <small class="error">{{$errors->first('zipcode')}}</small>
                                                             </div><!-- /.form-group -->
                                                         </div><!-- /.col-md-6 -->
@@ -247,9 +260,9 @@
                                                         <div class="col-md-6 col-sm-6">
                                                             <div class="form-group">
                                                                 <label for="submit-property-type">Property Type</label>
-                                                                <select name="property_type" id="submit-property-type">
+                                                                <select name="property_type" id="submit-property-type" value="{{$modify == 0 ? old('property_type') : $unit->property_type}}">
                                                                     @foreach($property_type as $key=>$propertyType)
-                                                                        <option value="{{$key}}">  {{$propertyType}}</option>
+                                                                        <option value="{{$key}}" @if($modify==1){{$unit->property_type == $key ? 'selected' : ''}} @endif>  {{$propertyType}}</option>
 {{--                                                                        <option value="{{$propertyType->id}}">{{$propertyType->name}}</option>--}}
                                                                     @endforeach
                                                                 </select>
@@ -261,7 +274,8 @@
                                                                 <label for="status">Status</label>
                                                                 <select name="status" id="submit-status">
                                                                     @foreach($status as $key=>$stat)
-                                                                        <option value="{{$key}}">{{$stat}}</option>
+
+                                                                        <option value="{{$key}}" @if($modify == 1){{$unit->status == $key ? 'selected' : ''}} @endif>{{$stat}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div><!-- /.form-group -->
@@ -271,14 +285,14 @@
                                                         <div class="col-md-6 col-sm-6">
                                                             <div class="form-group">
                                                                 <label for="beds">Beds</label>
-                                                                <input type="text" class="form-control" id="submit-Beds" name="beds" pattern="\d*" value="{{old('beds')}}" required>
+                                                                <input type="text" class="form-control" id="submit-Beds" name="beds" pattern="\d*" value="{{$modify == 0 ? old('beds') : $unit->beds}}" required>
                                                                 <small class="error">{{$errors->first('beds')}}</small>
                                                             </div><!-- /.form-group -->
                                                         </div><!-- /.col-md-6 -->
                                                         <div class="col-md-6 col-sm-6">
                                                             <div class="form-group">
                                                                 <label for="baths">Baths</label>
-                                                                <input type="text" class="form-control" id="submit-Baths" name="baths" value="{{old('baths')}}" pattern="\d*"  required>
+                                                                <input type="text" class="form-control" id="submit-Baths" name="baths" value="{{$modify == 0 ? old('baths') : $unit->baths}}" pattern="\d*"  required>
                                                                 <small class="error">{{$errors->first('baths')}}</small>
                                                             </div><!-- /.form-group -->
                                                         </div><!-- /.col-md-6 -->
@@ -288,7 +302,7 @@
                                                             <div class="form-group">
                                                                 <label for="area">Area</label>
                                                                 <div class="input-group">
-                                                                    <input type="text" class="form-control error" id="submit-area" name="area" pattern="\d*" value="{{old('area')}}" required>
+                                                                    <input type="text" class="form-control error" id="submit-area" name="area" pattern="\d*" value="{{$modify == 0 ? old('area') : $unit->area}}" required>
                                                                     <span class="input-group-addon">m<sup>2</sup></span>
                                                                     <small class="error">{{$errors->first('area')}}</small>
                                                                 </div>
@@ -297,14 +311,21 @@
                                                         <div class="col-md-6 col-sm-6">
                                                             <div class="form-group">
                                                                 <label for="garages">Garages</label>
-                                                                <input type="text" class="form-control" id="submit-garages" name="garages" pattern="\d*" value="{{old('garages')}}">
+                                                                <input type="text" class="form-control" id="submit-garages" name="garages" pattern="\d*" value="{{$modify == 0 ? old('garages') : $unit->garages}}">
                                                             </div><!-- /.form-group -->
                                                         </div><!-- /.col-md-6 -->
                                                     </div><!-- /.row -->
                                                     <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" name="israting" {{ old('israting') ? 'checked' : '' }} value='1'>Allow user rating <i class="fa fa-question-circle tool-tip"  data-toggle="tooltip" data-placement="right" title="Users can give you a stars rating which is displayed in property detail"></i>
-                                                        </label>
+                                                        <div class="col-md-6 col-sm-6" style="padding:0px">
+                                                            <label>
+                                                                <input type="checkbox" name="israting" {{ $modify == 0 ? old('israting') : $unit->israting == 1 ? 'checked' : '' }} value='1'>Allow user rating <i class="fa fa-question-circle tool-tip"  data-toggle="tooltip" data-placement="right" title="Users can give you a stars rating which is displayed in property detail"></i>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6" style="padding-right:0px">
+                                                            <label>
+                                                                <input type="checkbox" name="allow_comment" {{ $modify == 0 ? old('allow_comment') : $unit->allow_comment == 1 ? 'checked' : '' }} value='1'>Allow user comment <i class="fa fa-question-circle tool-tip"  data-toggle="tooltip" data-placement="right" title="Users can give you a comment which is displayed in property detail"></i>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </section><!-- /#summary -->
                                             </div><!-- /.col-md-6 -->
@@ -315,21 +336,21 @@
                                                         <span class="link-arrow geo-location">Get My Position</span>
                                                     </header>
                                                     <div class="form-group">
-                                                        <label for="Address">location Map</label>
-                                                        <input type="text" class="form-control" id="Address" value="{{old('Address')}}" name="Address">
-                                                        <small class="error">{{$errors->first('Address')}}</small>
+                                                        <label for="location_map">location Map</label>
+                                                        <input type="text" class="form-control" id="location_map" value="{{$modify == 0 ? old('location_map') : $unit->location_map}}" name="location_map">
+                                                        <small class="error">{{$errors->first('location_map')}}</small>
                                                     </div><!-- /.form-group -->
                                                     <label for="address-map">Or drag the marker to property position</label>
                                                     <div id="submit-map"></div>
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" id="latitude" value="{{old('map_lat')}}" name="map_lat" readonly>
+                                                                <input type="text" class="form-control" id="latitude" value="{{$modify == 0 ? old('map_lat') : $unit->map_lat}}" name="map_lat" readonly>
                                                             </div><!-- /.form-group -->
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <input type="text" class="form-control" id="longitude" name="map_lon" value="{{old('map_lon')}}" readonly>
+                                                                <input type="text" class="form-control" id="longitude" name="map_lon" value="{{$modify == 0 ? old('map_lon') : $unit->map_lon}}" readonly>
                                                             </div><!-- /.form-group -->
                                                         </div>
                                                     </div>
@@ -345,17 +366,16 @@
                                         <div class="form-group">
 
 
-
-{{--                                                {!! Form::file('file[]',['class'=>'file','data-show-upload'=>'false',--}}
-{{--                                                'data-show-caption'=>'false','data-show-caption'=>'false','data-show-remove'=>'false','data-show-delete'=>'true',--}}
-{{--                                                'accept'=>'image/jpeg,image/png','data-browse-class'=>'btn btn-default','data-browse-label'=>'Browse Images',--}}
-{{--                                                'multiple'=>true,'id'=>'file-upload']) !!}--}}
-
+                                                {!! Form::file('file[]',['class'=>'file','data-show-upload'=>'false',
+                                                'data-show-caption'=>'false','data-show-caption'=>'false','data-show-remove'=>'false','data-show-delete'=>'true',
+                                                'accept'=>'image/jpeg,image/png','data-browse-class'=>'btn btn-default','data-browse-label'=>'Browse Images',
+                                                'multiple'=>true,'id'=>'file-upload']) !!}
 
 
-                                            <div class="file-loading">
-                                                <input id="file-upload" name="file[]" type="file" multiple accept="image/jpeg,image/png">
-                                            </div>
+
+{{--                                            <div class="file-loading">--}}
+{{--                                                <input id="file-upload" name="file[]" type="file" multiple accept="image/jpeg,image/png">--}}
+{{--                                            </div>--}}
 
 
 
@@ -390,7 +410,7 @@
 {{--  End of Dropzone                                      --}}
 
                                         <label for="video">Video:</label>
-                                        <input type="text" class="form-control" id="video" value="{{old('video')}}" name="video">
+                                        <input type="text" class="form-control" id="video" value="{{$modify == 0 ? old('video') : $unit->video}}" name="video">
                                         <figure>Add link here</figure>
                                         <small class="error">{{$errors->first('video')}}</small>
                                     </div><!-- /.form-group -->
@@ -399,12 +419,18 @@
                                 <section id="property-features" class="block">
                                     <section>
                                         <header><h2>Property Features</h2> <span id="add_features"><i class="material-icons">add_circle_outline</i>Add Feature</span></header>
+
                                         <ul class="submit-features" id="ul_features">
                                             @foreach($property_features as $feature)
-                                                <li><div class="checkbox"><label><input type="checkbox" name="property_features[]" value="{{$feature->id}}">{{$feature->name}}</label></div></li>
+                                                <li>
+                                                    <div class="checkbox">
+                                                        <label>
+
+                                                            <input type="checkbox" name="property_features[]" value="{{$feature->id}}" @if($modify == 1){{in_array($feature->id,$property_selected_features) ? 'checked' : ''}} @endif>{{$feature->name}}
+                                                        </label>
+                                                    </div>
+                                                </li>
                                             @endforeach
-
-
                                         </ul>
                                     </section>
                                 </section>
@@ -432,7 +458,7 @@
                         <div class="col-md-9 col-sm-9">
                             <div class="center">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-default large">Proceed to Payment</button>
+                                    <button type="submit" class="btn btn-default large">{{$modify == 0 ? 'Proceed to Payment': 'Update'}}</button>
                                 </div><!-- /.form-group -->
                                 <figure class="note block">By clicking the “Proceed to Payment” or “Submit” button you agree with our <a href="terms-conditions.html">Terms and conditions</a></figure>
                             </div>
@@ -449,6 +475,8 @@
                         </div><!-- /.col-md-3 -->
                     </div>
                 </div>
+
+                <input type="hidden" id="marker" value="{{$modify == 0 ? 'false' : 'true' }}">
 
             {!! Form::close() !!}
 
@@ -503,18 +531,29 @@
     <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/piexif.js')}}"></script>
-{{--    <script type="text/javascript" src="{{asset('assets/js/fileinput.min.js')}}"></script>--}}
-    <script type="text/javascript" src="{{asset('vendor/bootstrap-fileinput-master/js/fileinput.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/js/fileinput.min.js')}}"></script>
+{{--    <script type="text/javascript" src="{{asset('vendor/bootstrap-fileinput-master/js/fileinput.min.js')}}"></script>--}}
 
     <script type="text/javascript" src="{{asset('assets/js/custom-map.js')}}"></script>
 {{--    <script type="text/javascript" src="{{asset('vendor/dropzone/dropzone.js')}}"></script>--}}
     <script type="text/javascript" src="{{asset('js/common.js')}}"></script>
     <script src="{{asset('vendor/summernote-develop/dist/summernote-bs4.js')}}" type="text/javascript"></script>
 
-
     <script>
-        var _latitude = 14.5699;
-        var _longitude = 120.9858;
+
+        var map_lat = document.getElementById("latitude").value;
+        var map_lon = document.getElementById("longitude").value;
+
+        var _marker = $("#marker").val() == 'false' ? '../assets/img/marker.png' : '../../assets/img/marker.png';
+
+
+
+{{--        var _marker = {{$modify == 0 ? '../assets/img/marker.png' : '../../assets/img/marker.png'}};--}}
+
+        var _latitude = !!map_lat  ? map_lat : 14.5699;
+        var _longitude = !!map_lon ? map_lon : 120.9858;
+
+
 
         google.maps.event.addDomListener(window, 'load', initSubmitMap(_latitude,_longitude));
 
@@ -532,7 +571,7 @@
             var marker = new MarkerWithLabel({
                 position: mapCenter,
                 map: map,
-                icon: '../assets/img/marker.png',
+                icon: _marker,
                 labelAnchor: new google.maps.Point(50, 0),
                 draggable: true
             });
@@ -546,7 +585,7 @@
 
 //      Autocomplete
 //             var input = /** @type {HTMLInputElement} */( document.getElementById('address-map') );
-            var input = /** @type {HTMLInputElement} */( document.getElementById('Address') );
+            var input = /** @type {HTMLInputElement} */( document.getElementById('location_map') );
             var autocomplete = new google.maps.places.Autocomplete(input);
             autocomplete.bindTo('bounds', map);
             google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -605,15 +644,15 @@
 
         // });
 
-        var idko;
-        function deleteMe(me){
-            $(me).parent().parent().parent().parent().remove();
-        }
+        // var idko;
+        // function deleteMe(me){
+        //     $(me).parent().parent().parent().parent().remove();
+        // }
 
 
         $(document).ready(function(){
 
-            var btns = '<button type="button" class="kv-cust-btn btn btn-kv btn-secondary" title="Edit" onclick="deleteMe(this)" id="deleteme"><i class="glyphicon glyphicon-edit"></i></button>';
+            // var btns = '<button type="button" class="kv-cust-btn btn btn-kv btn-secondary" title="Edit" onclick="deleteMe(this)" id="deleteme"><i class="glyphicon glyphicon-edit"></i></button>';
 
             // $('.kv-cust-btn').on('click', function() {
             //     // var btn = $(this), key = btn.data('key');
@@ -622,22 +661,22 @@
             // });
 
 
-           idko =  $("#file-upload").fileinput({
-                overwriteInitial: false,
-                maxFileSize: 5000,
-                // initialCaption: "The Moon and the Earth",
-                showCaption: false,
-                showRemove: false,
-                showUpload: false,
-                // maxFilePreviewSize: 10240,
-                otherActionButtons: btns,
-               browseClass: "btn btn-success",
-               browseLabel: "Pick Image",
-               allowedFileExtensions: ["jpg", "JPG", "jpeg", "JPEG","gif","ping","bmp"],
-               allowedFileTypes: ["image"],
-               maxFileCount: 10,
-               browseOnZoneClick:false,
-               showCancel:false
+           // idko =  $("#file-upload").fileinput({
+           //      overwriteInitial: false,
+           //      // maxFileSize: 5000,
+           //      // initialCaption: "The Moon and the Earth",
+           //      showCaption: false,
+           //      showRemove: false,
+           //      showUpload: false,
+           //      // maxFilePreviewSize: 10240,
+           //      otherActionButtons: btns,
+           //     browseClass: "btn btn-success",
+           //     browseLabel: "Pick Image",
+           //     allowedFileExtensions: ["jpg", "JPG", "jpeg", "JPEG","gif","ping","bmp"],
+           //     allowedFileTypes: ["image"],
+           //     // maxFileCount: 10,
+           //     browseOnZoneClick:false,
+           //     showCancel:false
 
            //     initialPreview: [
            //         // IMAGE DATA
@@ -719,11 +758,7 @@
 
 
 
-            });
-
-
-
-
+            // });
 
 
 
@@ -731,7 +766,7 @@
 
                 $.ajaxSetup({
                    headers:{
-                       'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                    }
                 });
                 $.ajax({
@@ -743,12 +778,13 @@
                     },
                     success: function(result) {
 
-                        // alert(result.last_insert);
 
                         if(!result.errors)
                         {
                             $('#property-featuresID').modal('hide');
                             $("#ul_features").append('<li><div class="checkbox"><label><input type="checkbox" checked name="property_features[]" value="' + result.last_insert + '">' + result.name + '</label></div></li>');
+                            $('input').iCheck();
+                            $("#input_feature").val('');
                         }
                     },
                 });
@@ -758,6 +794,10 @@
 
 
         });
+
+
+
+
 
 
         registerSummernote('.summernote', 'Describe your property', 3090, function(max) {
@@ -809,17 +849,19 @@
         }
         $('.note-editable').css('lineHeight','.8');
 
+        $('#description').summernote('code', "{!! $modify == 1 ? $unit->Description : '' !!}");
 
-        Dropzone.options.myAwesomeDropzone = {
-            paramName: "file", // The name that will be used to transfer the file
-            maxFilesize: 2, // MB
-            accept: function(file, done) {
-                if (file.name == "justinbieber.jpg") {
-                    done("Naha, you don't.");
-                }
-                else { done(); }
-            }
-        };
+
+        // Dropzone.options.myAwesomeDropzone = {
+        //     paramName: "file", // The name that will be used to transfer the file
+        //     maxFilesize: 2, // MB
+        //     accept: function(file, done) {
+        //         if (file.name == "justinbieber.jpg") {
+        //             done("Naha, you don't.");
+        //         }
+        //         else { done(); }
+        //     }
+        // };
 
 
 

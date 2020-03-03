@@ -28,6 +28,7 @@ class CreateUnitRequest extends FormRequest
             'price'             => 'required:required|regex:/^\d+(\.\d{1,2})?$/',
             'Description'       =>'required|min:10',
             'Address'           => 'required|min:5',
+            'location_map'      =>'required',
             'beds'              => 'required',
             'city'              => 'required',
             'zipcode'           => 'required|numeric',

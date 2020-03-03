@@ -69,8 +69,9 @@ class PropertyController extends Controller
 
         $user= Auth::user();
 
-        $cities = new Cities();
-        $all_cities = $cities->orderBy('name','ASC')->get();
+        $cities = Cities::pluck('name','id');
+//        $cities = new Cities();
+//        $all_cities = $cities->orderBy('name','ASC')->get();
 
         $all_property = propertyType::pluck('name','id')->all();
 
@@ -82,10 +83,12 @@ class PropertyController extends Controller
 
         $data = [];
         $data['user']               = $user;
-        $data['cities']             = $all_cities;
+//        $data['cities']             = $all_cities;
+        $data['cities']             = $cities;
         $data['property_type']      = $all_property;
         $data['property_features']  =  $all_features;
         $data['status']             =$all_status;
+        $data['modify']             = 0;
 
         return view('units/form',$data);
 
@@ -104,7 +107,6 @@ class PropertyController extends Controller
 
         $user= Auth::user();
 
-
         $inputs = $request->all();
 
 
@@ -114,6 +116,7 @@ class PropertyController extends Controller
         $inputs['hash_id'] = rand(time(), 9999);
 
         $inputs['israting'] = !empty($request->israting) ? 1 : 0;
+        $inputs['allow_comment'] = !empty($request->allow_comment) ? 1 : 0;
 
         $features               = $request->input('property_features');
         $all_features ="";
@@ -281,10 +284,7 @@ class PropertyController extends Controller
 
                 }
             }
-
-
         }
-
 
         $property_selected_features = explode('|',$unit->property_features);
 
@@ -316,26 +316,34 @@ class PropertyController extends Controller
     public function edit($hash_id)
     {
         //
-
 //        return $id;
+        $modify = 1;
 
         $unit = Units::where('hash_id','=',$hash_id)->orWhere('slug',$hash_id)->first();
 //        return $unit->property_features;
 //        return $unit;
 //        $unit = Units::findBySlugOrFail($hash_id);
 
+
+
         $cities = Cities::pluck('name','id');
+
+
         $property_type = propertyType::pluck('name','id')->all();
-        $status = Status::pluck('name','id');
-        $property_features = Features::pluck('name', 'id');
+        $status = Status::pluck('name','id')->all();
+
+//        $property_features = Features::pluck('name', 'id');
+
+
+
+        $property_features = Features::where('created_by','=', 0)
+            ->orWhere('created_by','=',$unit->user->id)->get();
 
         $property_selected_features = explode('|',$unit->property_features);
 
-
 //        return $property_selected_features;
 
-        return view('units.edit', compact('unit','cities', 'property_type', 'status','property_features','property_selected_features'));
-
+        return view('units.form', compact('unit','cities', 'property_type', 'status','property_features','property_selected_features','modify'));
     }
 
     /**
@@ -356,7 +364,6 @@ class PropertyController extends Controller
 //        return dd($request->israting);
 
         date_default_timezone_set('Asia/Manila');
-
 
 
 //        $inputs['user_id'] = $user->id;
