@@ -52,6 +52,13 @@ Route::resource('Units', 'PropertyController');
 Route::delete('/delete/SelectedProperties','PropertyController@deleteSelectedProperties');
 
 
+//COMMENTs ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Route::resource('Dashboard/Comments', 'unitCommentsController');
+Route::resource('Dashboard/Comment/replies', 'CommentRepliesController');
+
+//END COMMENTs ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 //END USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

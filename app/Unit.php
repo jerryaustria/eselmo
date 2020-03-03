@@ -114,6 +114,10 @@ class Unit extends Model
         return $embed->getHtml();
     }
 
+    public function comments(){
+        return $this->hasMany('App\Unit');
+    }
+
 
 
 }
