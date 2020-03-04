@@ -19,7 +19,13 @@ class Comment extends Model
 
 
     public function replies(){
-        return $this->hasMany('App\CommentReply');
+        return $this->hasMany('App\CommentReply','comment_id');
     }
+
+    public function user(){
+        return $this->belongsTo('App\User','author');
+    }
+
+
 
 }

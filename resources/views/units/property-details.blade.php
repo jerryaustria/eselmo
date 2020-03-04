@@ -392,73 +392,133 @@
 
                                 @endisset
 
+                                @if($unit->allow_comment == 1)
 
-                                <hr class="thick">
-                                <section id="comments">
+                                    <hr class="thick">
+                                    <section id="comments">
                                     <header><h2 class="no-border">Comments</h2></header>
                                     <ul class="comments">
-                                        <li class="comment">
-                                            <figure>
-                                                <div class="image">
-                                                    <img alt="" src="../assets/img/client-01.jpg">
-                                                </div>
-                                            </figure>
-                                            <div class="comment-wrapper">
-                                                <div class="name pull-left">Catherine Brown</div>
-                                                <span class="date pull-right"><span class="fa fa-calendar"></span>12.05.2014</span>
-                                                <div class="rating rating-individual" data-score="4"></div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum, sem ut sollicitudin consectetur,
-                                                    augue diam ornare massa, ac vehicula leo turpis eget purus. Nunc pellentesque vestibulum mauris, eget suscipit
-                                                    mauris imperdiet vel. Nulla et massa metus. Nam porttitor quam eget ante elementum consectetur. Aenean ac nisl
-                                                    et nulla placerat suscipit eu a mauris. Curabitur quis augue condimentum, varius mi in, ultricies velit.
-                                                    Suspendisse potenti.
-                                                </p>
-                                                <a href="#" class="reply"><span class="fa fa-reply"></span>Reply</a>
-                                                <hr>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <ul class="comments-child">
+                                        @if(count($comments) > 0)
+                                            @foreach($comments as $comment)
                                                 <li class="comment">
                                                     <figure>
                                                         <div class="image">
-                                                            <img alt="" src="../assets/img/agent-01.jpg">
+                                                            <img alt="" src="{{$comment->user->userPhoto->path}}">
                                                         </div>
                                                     </figure>
                                                     <div class="comment-wrapper">
-                                                        <div class="name">John Doe</div>
-                                                        <span class="date"><span class="fa fa-calendar"></span>24.06.2014</span>
-                                                        <div class="rating rating-individual" data-score="3"></div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vestibulum, sem ut sollicitudin consectetur,
-                                                            augue diam ornare massa, ac vehicula leo turpis eget purus. Nunc pellentesque vestibulum mauris, eget suscipit
-                                                            mauris.
-                                                        </p>
-                                                        <a href="#" class="reply"><span class="fa fa-reply"></span>Reply</a>
-                                                        <hr>
+                                                        <div class="name pull-left">{{$comment->user->name}}</div>
+                                                        <span class="date pull-right"><span class="fa fa-calendar"></span>{{$comment->created_at->diffForhumans()}}</span>
+                                                        <div class="rating rating-individual" data-score="4"></div>
+                                                        <p>{{$comment->body}}</p>
+
+
+
+
+
+
                                                     </div>
                                                 </li>
+
+                                            <li>
+                                            <ul class="comments-child">
+
+                                                @if(count($comment->replies) > 0)
+                                                    @foreach($comment->replies as $reply)
+
+                                                            <li class="comment" >
+                                                        <figure>
+                                                            <div class="image">
+                                                                <img alt="" src="{{$comment->user->userPhoto->path}}">
+                                                            </div>
+                                                        </figure>
+                                                        <div class="comment-wrapper">
+                                                            <div class="name">{{$reply->user->name}}</div>
+                                                            <span class="date"><span class="fa fa-calendar"></span>{{$reply->created_at->diffForhumans()}}</span>
+                                                            <div class="rating rating-individual" data-score="3"></div>
+                                                            <p>{{$reply->body}}</p>
+{{--                                                            <a href="#" class="reply"><span class="fa fa-reply"></span>Reply</a>--}}
+                                                            <hr>
+
+
+                                                        </div>
+                                                    </li>
+                                                    @endforeach
+
+
+                                                    <div class="comment">
+                                                        <a href="" class="reply" ><span class="fa fa-reply"></span>Reply</a>
+
+                                                        <div class="toggle-reply">
+
+                                                            {!! Form::open(['method'=>'POST', 'action'=>'CommentRepliesController@store','id'=>'reply-submit', 'role'=>'form','files'=>true]) !!}
+                                                            <div class="form-group">
+                                                                <input type="hidden" value="{{$comment->id}}" name="comment_id">
+
+                                                                {!! Form::textarea('body',old('body'),['class'=>'form-control', 'rows'=>2]) !!}
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                {!! Form::submit('Submit',['class'=>'btn btn-default btn-sm']) !!}
+                                                            </div>
+                                                            {!! Form::close() !!}
+
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+
+
                                             </ul>
+
+
+
+
+
+
+
+
+
+                                            <hr>
+
                                         </li>
-                                        <li class="comment">
-                                            <figure>
-                                                <div class="image">
-                                                    <img alt="" src="../assets/img/user-02.jpg">
-                                                </div>
-                                            </figure>
-                                            <div class="comment-wrapper">
-                                                <div class="name">John Doe</div>
-                                                <span class="date"><span class="fa fa-calendar"></span>08.05.2014</span>
-                                                <div class="rating rating-individual" data-score="5"></div>
-                                                <p>Quisque iaculis neque at dui cursus posuere. Sed tristique pharetra orci, eu malesuada ante tempus nec.
-                                                    Phasellus enim odio, facilisis et ante vel, tempor congue sapien. Praesent eget ligula
-                                                    eu libero cursus facilisis vel non arcu. Sed vitae quam enim.
-                                                </p>
-                                                <a href="#" class="reply"><span class="fa fa-reply"></span>Reply</a>
-                                                <hr>
-                                            </div>
-                                        </li>
+
+
+                                            @endforeach
+                                        @endif
+
+
+
+
                                     </ul>
                                 </section>
+                                <section>
+                                    <div class="well">
+
+
+                                        {!! Form::open(['method'=>'POST', 'action'=>'unitCommentsController@store','id'=>'fcomment-submit', 'role'=>'form','files'=>true]) !!}
+                                            <input type="hidden" name="unit_id" value="{{$unit->id}}">
+                                                <div class="form-group">
+                                                    {!! Form::label('comment','Leave a Comment:') !!}
+                                                    {!! Form::textarea('comment',old('comment'),['class'=>'form-control', 'rows'=>3, 'style'=>'background-color:white']) !!}
+                                                </div>
+
+
+                                            <div class="form-group">
+                                                {!! Form::submit('Submit',['class'=>'btn btn-primary']) !!}
+                                            </div>
+                                        {!! Form::close() !!}
+
+
+{{--                                        <form role="form" method="POST">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <textarea name="comment" id="comment_text" rows="3" class="form-control" style="background-color:white"></textarea>--}}
+{{--                                            </div>--}}
+{{--                                            <button type="submit" class="btn btn-primary">Submit</button>--}}
+{{--                                        </form>--}}
+                                    </div>
+                                </section>
+                                @endif
                             </div><!-- /.col-md-12 -->
                         </div><!-- /.row -->
                     </section><!-- /#property-detail -->
@@ -719,19 +779,34 @@
 
 
 
-
-
-
-
-
-
-
-
     </script>
 
     <script>
 
+
+        $.fn.extend({
+            toggleText: function (a, b) {
+                if (this.html() == a) {
+                    this.html(b);
+                } else {
+                    this.html(a);
+                }
+            }
+        });
+
+
         $(document).ready(function(){
+
+
+            $("a.reply").click(function(e){
+                e.preventDefault();
+
+                $(this).next('div').slideToggle("slow");
+
+                $(this).toggleText('<span class="fa fa-reply"></span>Reply','<span class="fa fa-times"></span>Close');
+            });
+
+
             $(".similarProperty").owlCarousel({
                 loop:true,
                 margin:0,
@@ -753,6 +828,9 @@
                 }
             });
         });
+
+
+
 
     </script>
 

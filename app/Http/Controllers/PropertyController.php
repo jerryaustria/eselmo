@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Photo;
 use App\status;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class PropertyController extends Controller
     public function __construct()
     {
 
-//        $this->middleware('auth');
+        $this->middleware('auth');
 
     }
 
@@ -131,7 +132,6 @@ class PropertyController extends Controller
 
             }
         }
-
 
         $inputs['property_features'] = $all_features;
 
@@ -267,13 +267,12 @@ class PropertyController extends Controller
         $unit = Units::where('slug','=',$slug)
                 ->orWhere('id',$slug)->first();
 
-//        return $unit->user_id;
-
         $owner_units = Units::where('user_id','=',$unit->user_id)->limit(10)->get();
-//        $owner_units = $unit->userHasManyUnits()->get();
-
 
         $photos = $unit->unitPhotos()->get();
+
+        $comments = Comment::where('unit_id','=',$unit->id)->limit(10)->get();
+
 
         $flrPlan= [];
 
@@ -303,7 +302,7 @@ class PropertyController extends Controller
 //        return $myFeatures;
 
 
-        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units','featured_units'));
+        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units','featured_units','comments'));
 
     }
 
@@ -368,6 +367,7 @@ class PropertyController extends Controller
 
 //        $inputs['user_id'] = $user->id;
         $inputs['israting'] = !empty($request->israting) ? 1 : 0;
+        $inputs['allow_comment'] = !empty($request->allow_comment) ? 1 : 0;
         $features               = $request->input('property_features');
         $all_features ="";
 

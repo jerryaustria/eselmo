@@ -54,8 +54,19 @@ Route::delete('/delete/SelectedProperties','PropertyController@deleteSelectedPro
 
 //COMMENTs ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+
 Route::resource('Dashboard/Comments', 'unitCommentsController');
 Route::resource('Dashboard/Comment/replies', 'CommentRepliesController');
+
+
+Route::group(['middleware'=>'auth'], function(){
+
+    Route::post('Dashboard/Comment/replies','CommentRepliesController@store');
+
+});
+
+
 
 //END COMMENTs ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

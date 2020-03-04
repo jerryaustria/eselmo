@@ -28,6 +28,20 @@ Headers:		'Roboto', sans-serif;
 
 -------------------------------------------------------------------*/
 
+
+/*---------------Custom CSS-----------------------*/
+
+.toggle-reply{
+  display:none;
+}
+
+.hideComment{
+  display:none !important;
+}
+
+
+/*---------------End Custom CSS-----------------------*/
+
 /* 1. Element Styling */
 
 @charset "CP852";
@@ -1618,6 +1632,7 @@ ul.list-links li a:hover {
   margin-bottom: 20px;
   padding-left: 80px;
   position: relative;
+  width: 100%;  /*  Jerry austria March 4 2020   */
 }
 .comments .comment figure {
   left: 0;

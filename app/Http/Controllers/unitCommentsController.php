@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\comment;
+use Illuminate\Support\Facades\Auth;
+use App\CommentReply;
 
 class unitCommentsController extends Controller
 {
@@ -35,6 +38,24 @@ class unitCommentsController extends Controller
     public function store(Request $request)
     {
         //
+
+
+
+        $user = Auth::user();
+
+        $data = [
+            'unit_id' => $request->unit_id,
+            'author' => $user->id,
+            'email' =>$user->email,
+            'photo'=>$user->userPhoto->path,
+            'body'=>$request->comment
+        ];
+
+
+        Comment::create($data);
+
+        $request->session()->flash('comment_message','Your message has been submitted and is waiting moderation');
+        return redirect()->back();
     }
 
     /**

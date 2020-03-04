@@ -318,12 +318,12 @@
                                                     <div class="checkbox">
                                                         <div class="col-md-6 col-sm-6" style="padding:0px">
                                                             <label>
-                                                                <input type="checkbox" name="israting" {{ $modify == 0 ? old('israting') : $unit->israting == 1 ? 'checked' : '' }} value='1'>Allow user rating <i class="fa fa-question-circle tool-tip"  data-toggle="tooltip" data-placement="right" title="Users can give you a stars rating which is displayed in property detail"></i>
+                                                                <input type="checkbox" name="israting" {{ $modify == 0 ? old('israting') : $unit->israting == 1 ? 'checked' : '' }} >Allow user rating <i class="fa fa-question-circle tool-tip"  data-toggle="tooltip" data-placement="right" title="Users can give you a stars rating which is displayed in property detail"></i>
                                                             </label>
                                                         </div>
                                                         <div class="col-md-6 col-sm-6" style="padding-right:0px">
                                                             <label>
-                                                                <input type="checkbox" name="allow_comment" {{ $modify == 0 ? old('allow_comment') : $unit->allow_comment == 1 ? 'checked' : '' }} value='1'>Allow user comment <i class="fa fa-question-circle tool-tip"  data-toggle="tooltip" data-placement="right" title="Users can give you a comment which is displayed in property detail"></i>
+                                                                <input type="checkbox" name="allow_comment" {{ $modify == 0 ? old('allow_comment') : $unit->allow_comment == 1 ? 'checked' : '' }} >Allow user comment <i class="fa fa-question-circle tool-tip"  data-toggle="tooltip" data-placement="right" title="Users can give you a comment which is displayed in property detail"></i>
                                                             </label>
                                                         </div>
                                                     </div>
