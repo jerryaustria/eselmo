@@ -26,7 +26,7 @@ class PropertyController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth');
+//        $this->middleware('auth');
 
     }
 
@@ -264,31 +264,37 @@ class PropertyController extends Controller
     {
         //
 //        $unit = Units::findBySlugOrFail($slug)->first();
-        $unit = Units::where('slug','=',$slug)
+
+        $data['unit'] = Units::where('slug','=',$slug)
                 ->orWhere('id',$slug)->first();
 
-        $owner_units = Units::where('user_id','=',$unit->user_id)->limit(10)->get();
+        $data['owner_units'] = Units::where('user_id','=',$data['unit']->user_id)->limit(10)->get();
 
-        $photos = $unit->unitPhotos()->get();
+        $data['photos'] = $data['unit']->unitPhotos()->get();
 
-        $comments = Comment::where('unit_id','=',$unit->id)->limit(10)->get();
+        $data['comments'] = Comment::where('unit_id','=',$data['unit']->id)->limit(10)->get();
 
-        $bookmarked = $unit->bookmark($unit->id);
+        if(Auth::check()){
+            $data['bookmarked'] = $data['unit']->bookmark($data['unit']->id);
+        }
 
-//        return $bookmarked;
+
 
         $flrPlan= [];
 
-        if($photos){
-            foreach($photos as $flrplanPhotos){
+        if($data['photos']){
+            foreach($data['photos'] as $flrplanPhotos){
                 if(!empty($flrplanPhotos->remark) && $flrplanPhotos->remark == 'floorplan'){
                     $flrPlan[] = $flrplanPhotos->path;
-
                 }
             }
         }
 
-        $property_selected_features = explode('|',$unit->property_features);
+        $data['flrPlan'] = $flrPlan;
+
+        $property_selected_features = explode('|',$data['unit']->property_features);
+
+         $myFeatures=[];
 
         if(count($property_selected_features) > 0){
                 foreach($property_selected_features as $feature){
@@ -296,8 +302,11 @@ class PropertyController extends Controller
                     $myFeatures[] = Features::findOrFail($feature);
                 }
         }
+        $data['myFeatures'] = $myFeatures;
 
-        $featured_units = Featured::offset(0)->limit(10)->get();
+        $data['featured_units'] = Featured::offset(0)->limit(10)->get();
+
+
 
 //        return $featured_units[0]->unit_detail->Title;
 
@@ -305,8 +314,8 @@ class PropertyController extends Controller
 //        return $myFeatures;
 
 
-        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units','featured_units','comments','bookmarked'));
-
+//        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units','featured_units','comments','bookmarked'));
+            return view('units.property-details',$data);
     }
 
     /**

@@ -46,7 +46,7 @@
                                 <ul class="sidebar-navigation">
                                     <li class="active"><a href="{{route('userProfile')}}"><i class="fa fa-user"></i><span>Profile</span></a></li>
                                     <li><a href="{{route('myProperties')}}"><i class="fa fa-home"></i><span>My Properties</span></a></li>
-                                    <li><a href="bookmarked.html"><i class="fa fa-heart"></i><span>Bookmarked Properties</span></a></li>
+                                    <li><a href="{{route('Bookmark.index')}}"><i class="fa fa-heart"></i><span>Bookmarked Properties</span></a></li>
                                 </ul>
                             </aside>
                         </section><!-- /#sidebar -->

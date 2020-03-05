@@ -39,7 +39,9 @@
                             <span class="actions">
                                 <!--<a href="#" class="fa fa-print"></a>-->
 {{--                                {{$bookmarked}}--}}
-                                <a href="#" class="bookmark @if(!empty($bookmarked)) bookmark-added @endif" data-bookmark-id="@if(!empty($bookmarked)){{$bookmarked[0]->id}}@else{{0}}@endif" data-bookmark-state="@if(!empty($bookmarked)){{'added'}}@else{{'empty'}}@endif" ><span class="title-add">Add to bookmark</span><span class="title-added">Added</span></a>
+                                <input type="hidden" value="{{Auth::check() ? 'true' : 'false' }}" id="show-bookmark">
+
+                                <a href="#" class="bookmark {{isset($bookmarked) && !empty($bookmarked) ? 'bookmark-added' : ''}}" data-bookmark-id="{{isset($bookmarked) && !empty($bookmarked) ? $bookmarked[0]->id : 0}}" data-bookmark-state="{{isset($bookmarked) && !empty($bookmarked) ? 'added' : 'empty'}}" ><span class="title-add">Add to bookmark</span><span class="title-added">Added</span></a>
 
                             </span>
                         </header>
@@ -723,9 +725,7 @@
                 dataType:"json",
                 async: false,
                 success: function(result) {
-
                     newBookmarkID =  result.id;
-
                 },
             });
 

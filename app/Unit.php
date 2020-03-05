@@ -74,8 +74,6 @@ class Unit extends Model
         $user_id = Auth::user()->id;
 
         return  DB::select("SELECT b.* FROM bookmarks as b INNER JOIN units u on b.unit_id = u.id Where b.user_id = " . $user_id ." AND b.unit_id=".$unit_id);
-//        $activeCountries = DB::select("SELECT distinct co.country_name, co.country_code FROM units un INNER JOIN apps_countries co on un.country_id = co.id");
-
 
 //        return $this->hasOne('App\bookmark','unit_id');
     }

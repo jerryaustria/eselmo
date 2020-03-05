@@ -206,6 +206,17 @@ $(document).ready(function($) {
 
     bookmarkButton.on("click", function() {
 
+        if($("#show-bookmark").val() == 'false'){
+
+            var login = confirm("Login required, would you like to Signin?");
+
+            if(login == true){
+                window.location.replace("/login");
+            }else{
+                return false;
+            }
+
+        }
 
         var bookmark_id = "";
 

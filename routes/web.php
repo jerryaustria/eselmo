@@ -100,7 +100,7 @@ Route::get('/quick-contact','PropertyController@send_email');
 //USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ USERS
 Route::resource('dashboard/users','adminUsersController');
 
-Route::get('User/Profile','UsersController@userProfile')->name('userProfile');
+//Route::get('User/Profile','UsersController@userProfile')->name('userProfile');
 
 
 //Route::group(['middleware'=>'admin'], function(){
