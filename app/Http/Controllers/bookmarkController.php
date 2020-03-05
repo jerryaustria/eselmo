@@ -19,9 +19,9 @@ class bookmarkController extends Controller
 
         $user = Auth::user();
 
-        $bookmark = $user->bookmark_user;
+        $bookmark = $user->bookmark_user()->paginate(50);
 
-
+//        return $bookmark;
 
 
 //        return $bookmarked;

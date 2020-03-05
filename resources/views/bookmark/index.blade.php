@@ -95,15 +95,24 @@
 
                         </div><!-- /js-masonry-->
                         <!-- Pagination -->
+{{--                        <div class="center">--}}
+{{--                            <ul class="pagination">--}}
+{{--                                <li class="active"><a href="#">1</a></li>--}}
+{{--                                <li><a href="#">2</a></li>--}}
+{{--                                <li><a href="#">3</a></li>--}}
+{{--                                <li><a href="#">4</a></li>--}}
+{{--                                <li><a href="#">5</a></li>--}}
+{{--                            </ul><!-- /.pagination-->--}}
+{{--                        </div><!-- /.center-->--}}
+
                         <div class="center">
                             <ul class="pagination">
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
+                                {{$bookmark->links()}}
                             </ul><!-- /.pagination-->
                         </div><!-- /.center-->
+
+
+
                     </section><!-- /#my-properties -->
                 </div><!-- /.col-md-9 -->
                 <!-- end My Properties -->

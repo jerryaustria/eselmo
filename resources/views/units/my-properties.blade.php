@@ -152,6 +152,8 @@
 {{--                                    <li><a href="#">5</a></li>--}}
                                 </ul><!-- /.pagination-->
                             </div><!-- /.center-->
+
+
                         </div><!-- /.my-properties -->
                     </section><!-- /#my-properties -->
                 </div><!-- /.col-md-9 -->
