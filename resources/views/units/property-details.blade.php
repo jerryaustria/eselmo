@@ -34,13 +34,16 @@
                 <div class="col-md-9 col-sm-9">
                     <section id="property-detail">
                         <header class="property-title">
-                            <h1>{{$unit->Title}}</h1>
+                            <h1>{{$unit->Title}}  </h1>
                             <figure>{{$unit->Address}}</figure>
                             <span class="actions">
                                 <!--<a href="#" class="fa fa-print"></a>-->
-                                <a href="#" class="bookmark" data-bookmark-state="empty"><span class="title-add">Add to bookmark</span><span class="title-added">Added</span></a>
+{{--                                {{$bookmarked}}--}}
+                                <a href="#" class="bookmark @if(!empty($bookmarked)) bookmark-added @endif" data-bookmark-id="@if(!empty($bookmarked)){{$bookmarked[0]->id}}@else{{0}}@endif" data-bookmark-state="@if(!empty($bookmarked)){{'added'}}@else{{'empty'}}@endif" ><span class="title-add">Add to bookmark</span><span class="title-added">Added</span></a>
+
                             </span>
                         </header>
+
                         <section id="property-gallery">
                             <div class="owl-carousel property-carousel">
 
@@ -699,6 +702,54 @@
 
 
     <script type="text/javascript">
+
+
+        function add_bookmark(){
+
+            var newBookmarkID ="";
+
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url:"{{url('Bookmark/add')}}",
+                method:'POST',
+                data:{
+                    unit_id: "{{$unit->id}}",
+                },
+                dataType:"json",
+                async: false,
+                success: function(result) {
+
+                    newBookmarkID =  result.id;
+
+                },
+            });
+
+            return newBookmarkID;
+        }
+
+        function  remove_bookmark(id){
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url:"{{url('Bookmark/remove')}}",
+                method:'POST',
+                data:{
+                    bookmark_id: id,
+                },
+                success: function(result) {
+
+                },
+            });
+        }
 
         // var propertyId = document.getElementById("unitID");
         var map_lat = document.getElementById("map_lat").value;

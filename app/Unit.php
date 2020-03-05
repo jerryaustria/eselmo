@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Cviebrock\EloquentSluggable\Sluggable;
 
@@ -68,8 +69,16 @@ class Unit extends Model
         return $this->belongsTo('App\User','user_id');
     }
 
+    public function bookmark($unit_id){
+
+        $user_id = Auth::user()->id;
+
+        return  DB::select("SELECT b.* FROM bookmarks as b INNER JOIN units u on b.unit_id = u.id Where b.user_id = " . $user_id ." AND b.unit_id=".$unit_id);
+//        $activeCountries = DB::select("SELECT distinct co.country_name, co.country_code FROM units un INNER JOIN apps_countries co on un.country_id = co.id");
 
 
+//        return $this->hasOne('App\bookmark','unit_id');
+    }
 
     public function photos(){
         return $this->morphMany('App\Photo', 'imageable_id');
@@ -117,6 +126,8 @@ class Unit extends Model
     public function comments(){
         return $this->hasMany('App\Unit');
     }
+
+
 
 
 

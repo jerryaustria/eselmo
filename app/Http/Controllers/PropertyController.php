@@ -273,6 +273,9 @@ class PropertyController extends Controller
 
         $comments = Comment::where('unit_id','=',$unit->id)->limit(10)->get();
 
+        $bookmarked = $unit->bookmark($unit->id);
+
+//        return $bookmarked;
 
         $flrPlan= [];
 
@@ -302,7 +305,7 @@ class PropertyController extends Controller
 //        return $myFeatures;
 
 
-        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units','featured_units','comments'));
+        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units','featured_units','comments','bookmarked'));
 
     }
 
@@ -434,12 +437,10 @@ class PropertyController extends Controller
     {
         //
 
-
         Units::findOrFail($id)->delete();
 
 
         $photos = Photo::Where('imageable_id', '=', $id)->where('imageable_type','=','App\Unit')->get();
-
 
 
         if($photos){

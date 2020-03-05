@@ -67,8 +67,25 @@ Route::group(['middleware'=>'auth'], function(){
 });
 
 
-
 //END COMMENTs ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+// Bookmark ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Route::resource('Bookmark','bookmarkController');
+
+Route::group(['middleware'=>'auth'], function(){
+    Route::get('Bookmark/bookmark-properties','bookmarkController@index');
+    Route::post('Bookmark/add','bookmarkController@store');
+    Route::post('Bookmark/remove','bookmarkController@destroy');
+
+});
+
+
+// END Bookmark ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 
 
 //END USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

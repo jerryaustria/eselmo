@@ -55,7 +55,9 @@ class User extends Authenticatable
         return $this->belongsTo('App\Photo','photo_id');
     }
 
-
+    public function bookmark_user(){
+        return $this->hasMany('App\bookmark','user_id');
+    }
 
     public function checkAccountPlan(){
         if($this->role->name == 'Administrator' && $this->is_active == 1){

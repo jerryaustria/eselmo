@@ -205,14 +205,34 @@ $(document).ready(function($) {
     }
 
     bookmarkButton.on("click", function() {
+
+
+        var bookmark_id = "";
+
         if (bookmarkButton.data('bookmark-state') == 'empty') {
+
             bookmarkButton.data('bookmark-state', 'added');
             bookmarkButton.addClass('bookmark-added');
+
+            bookmark_id = add_bookmark();
+
+            bookmarkButton.data('bookmark-id', bookmark_id);
+
+
         } else if (bookmarkButton.data('bookmark-state') == 'added') {
             bookmarkButton.data('bookmark-state', 'empty');
             bookmarkButton.removeClass('bookmark-added');
+            bookmark_id = bookmarkButton.data('bookmark-id');
+
+
+            remove_bookmark(bookmark_id);
+            bookmarkButton.data('bookmark-id', '');
         }
     });
+
+    //Jerry Austria March 5 2020
+
+
 	
     if ($('body').hasClass('navigation-fixed-bottom')){
         $('#page-content').css('padding-top',$('.navigation').height());

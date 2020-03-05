@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\bookmark;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class bookmarkController extends Controller
 {
@@ -14,6 +16,20 @@ class bookmarkController extends Controller
     public function index()
     {
         //
+
+        $user = Auth::user();
+
+        $bookmark = $user->bookmark_user;
+
+
+
+
+//        return $bookmarked;
+
+
+
+        return view('bookmark.index',compact('bookmark'));
+
     }
 
     /**
@@ -35,6 +51,15 @@ class bookmarkController extends Controller
     public function store(Request $request)
     {
         //
+
+        $inputs=$request->all();
+
+        $inputs['user_id'] = Auth::user()->id;
+
+        $bookmark = bookmark::create($inputs);
+
+        return response()->json(array('success'=>$inputs,'id'=>$bookmark->id));
+
     }
 
     /**
@@ -77,8 +102,11 @@ class bookmarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
+
+//        return response()->json(array('success'=>$inputs));
+        bookmark::findOrFail($request['bookmark_id'])->delete();
     }
 }
