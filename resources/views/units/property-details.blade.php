@@ -206,51 +206,56 @@
                                     </div>
                                 </section><!-- /#property-map -->
 
-                                @if($unit->israting)
+                                @if($unit->israting && Auth::check())
                                     <section id="property-rating">
                                         <header><h2>Rating</h2></header>
                                         <div class="clearfix">
                                             <aside>
                                                 <header>Your Rating</header>
-                                                <div class="rating rating-user">
+                                                <div class="rating rating-user" data-rating-number="{{isset($rate) ? $rate->rate : 0}}">
                                                     <div class="inner"></div>
                                                 </div>
+
                                             </aside>
                                             <figure>
                                                 <header>Overall Rating</header>
-                                                <div class="rating rating-overall" data-score="4"></div>
+
+                                                <div class="rating rating-overall" data-score="{{isset($overAllRate) ? round($overAllRate[0]->percentage) : 0}}"></div>
                                             </figure>
                                         </div>
                                         <div class="rating-form">
-                                            <header>Thank you! Please describe your rating</header>
-                                            <form role="form" id="form-rating" method="post"  class="clearfix">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="form-rating-name">Your Name<em>*</em></label>
-                                                            <input type="text" class="form-control" id="form-rating-name" name="form-rating-name" required>
-                                                        </div><!-- /.form-group -->
-                                                    </div><!-- /.col-md-6 -->
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="form-rating-email">Your Email<em>*</em></label>
-                                                            <input type="email" class="form-control" id="form-rating-email" name="form-rating-email" required>
-                                                        </div><!-- /.form-group -->
-                                                    </div><!-- /.col-md-6 -->
-                                                </div><!-- /.row -->
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="form-rating-message">Your Message<em>*</em></label>
-                                                            <textarea class="form-control" id="form-rating-message" rows="6" name="form-rating-message" required></textarea>
-                                                        </div><!-- /.form-group -->
-                                                    </div><!-- /.col-md-12 -->
-                                                </div><!-- /.row -->
-                                                <div class="form-group">
-                                                    <button type="submit" class="btn pull-right btn-default" id="form-rating-submit">Send a Message</button>
-                                                </div><!-- /.form-group -->
-                                                <div id="form-rating-status"></div>
-                                            </form><!-- /#form-contact -->
+                                            <header>Thank you! For more info. about this property please subscribe <a href="#">here</a></header>
+{{--                                            <header>Thank you! Please describe your rating</header>--}}
+
+{{--                                            <form role="form" id="form-rating" method="post"  class="clearfix">--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <div class="col-md-6">--}}
+{{--                                                        <div class="form-group">--}}
+{{--                                                            <label for="form-rating-name">Your Name<em>*</em></label>--}}
+{{--                                                            <input type="text" class="form-control" id="form-rating-name" name="form-rating-name" required>--}}
+{{--                                                        </div><!-- /.form-group -->--}}
+{{--                                                    </div><!-- /.col-md-6 -->--}}
+{{--                                                    <div class="col-md-6">--}}
+{{--                                                        <div class="form-group">--}}
+{{--                                                            <label for="form-rating-email">Your Email<em>*</em></label>--}}
+{{--                                                            <input type="email" class="form-control" id="form-rating-email" name="form-rating-email" required>--}}
+{{--                                                        </div><!-- /.form-group -->--}}
+{{--                                                    </div><!-- /.col-md-6 -->--}}
+{{--                                                </div><!-- /.row -->--}}
+{{--                                                <div class="row">--}}
+{{--                                                    <div class="col-md-12">--}}
+{{--                                                        <div class="form-group">--}}
+{{--                                                            <label for="form-rating-message">Your Message<em>*</em></label>--}}
+{{--                                                            <textarea class="form-control" id="form-rating-message" rows="6" name="form-rating-message" required></textarea>--}}
+{{--                                                        </div><!-- /.form-group -->--}}
+{{--                                                    </div><!-- /.col-md-12 -->--}}
+{{--                                                </div><!-- /.row -->--}}
+{{--                                                <div class="form-group">--}}
+{{--                                                    <button type="submit" class="btn pull-right btn-default" id="form-rating-submit">Send a Message</button>--}}
+{{--                                                </div><!-- /.form-group -->--}}
+{{--                                                <div id="form-rating-status"></div>--}}
+{{--                                            </form><!-- /#form-contact -->--}}
+
                                         </div><!-- /.rating-form -->
                                     </section><!-- /#property-rating -->
                                 @endif
@@ -540,7 +545,7 @@
                             <header><h2>Quick Summary</h2></header>
                             <dl>
                                 <dt>Location</dt>
-                                <dd>{{$unit->Cities}}</dd>
+                                <dd>{{$unit->city}}</dd>
                                 <dt>Price</dt>
                                 <dd><span class="tag price">Php {{$unit->price}}</span></dd>
                                 <dt>Property Type:</dt>
@@ -558,7 +563,7 @@
 
                                 @if($unit->israting)
                                     <dt>Rating:</dt>
-                                    <dd><div class="rating rating-overall" data-score="4"></div></dd>
+                                    <dd><div class="rating rating-overall" data-score="{{isset($overAllRate) ? round($overAllRate[0]->percentage) : 0}}"></div></dd>
                                 @endif
 
                             </dl>
@@ -689,15 +694,15 @@
 {{--        type="text/javascript"></script>--}}
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfyW_Jj9YpTxwDGfRe8FCbgohLb_321Yc&callback=initMap&sensor=false" type="text/javascript"></script>
-
+    <script type="text/javascript" src="{{asset('assets/js/custom-map.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
 
 
     <script type="text/javascript" src="{{asset('assets/js/infobox.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.raty.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/jquery.fitvids.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/js/custom-map.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/js/markerwithlabel_packed.js')}}"></script>
+
     <!--[if gt IE 8]>
     <script type="text/javascript" src="{{asset('assets/js/ie.js')}}"></script>
     <![endif]-->
@@ -752,12 +757,6 @@
         }
 
         // var propertyId = document.getElementById("unitID");
-        var map_lat = document.getElementById("map_lat").value;
-        var map_lang = document.getElementById("map_lon").value;
-        var map_icon = "{{$unit->propertyType->photo}}";
-
-
-
 
         // var propertyId = 0;
         // google.maps.event.addDomListener(window, 'load', initMap(propertyId));
@@ -766,6 +765,10 @@
         // google.maps.event.addDomListener(window, 'load', initMap(map_lat, map_lang, map_icon));
 
         $(window).load(function(){
+
+            var map_lat = document.getElementById("map_lat").value;
+            var map_lang = document.getElementById("map_lon").value;
+            var map_icon = "{{$unit->propertyType->photo}}";
 
             initMap(map_lat, map_lang, map_icon);
 
@@ -883,6 +886,39 @@
 
 
 
+
+
     </script>
+
+<script>
+
+    function saveMyRate(score){
+
+
+
+        $.ajaxSetup({
+
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url:"{{url('rate/AddRate')}}",
+            method:'POST',
+            data:{
+                unit_id: "{{$unit->id}}",
+                rate: score,
+            },
+            dataType:"json",
+            success: function(result) {
+                console.log(result);
+                showRatingForm();
+            },
+        });
+    }
+
+
+</script>
 
 @endsection

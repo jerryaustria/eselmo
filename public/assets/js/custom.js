@@ -164,17 +164,25 @@ $(document).ready(function($) {
         });
     }
     var ratingUser = $('.rating-user');
+
+    var rating_number = ratingUser.data("rating-number") !== 'undefined' ? ratingUser.data("rating-number") : 0; // Jerry austria March 6 2020
+    // var rate_number = rating_number !== 'undefined' ? rating_number : 0;
+
+
     if (ratingUser.length > 0) {
         $('.rating-user .inner').raty({
             path: '../assets/img',
             starOff : 'big-star-off.png',
             starOn  : 'big-star-on.png',
             width: 150,
-            //target : '#hint',
+            score:rating_number, //Jerry austria March 6 2020
+            // target : '#hint',
             targetType : 'number',
             targetFormat : 'Rating: {score}',
             click: function(score, evt) {
-                showRatingForm();
+                // alert( '\nscore: ' + rating_number + '\nevent: ' + evt);
+                saveMyRate(score);
+
             }
         });
     }
@@ -215,6 +223,7 @@ $(document).ready(function($) {
             }else{
                 return false;
             }
+
 
         }
 
@@ -647,6 +656,7 @@ function setCarouselWidth(){
 // Show rating form
 
 function showRatingForm(){
+
     $('.rating-form').css('height', $('.rating-form form').height() + 85 + 'px');
 }
 

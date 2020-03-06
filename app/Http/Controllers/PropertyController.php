@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Photo;
+use App\rating;
 use App\status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -276,6 +277,14 @@ class PropertyController extends Controller
 
         if(Auth::check()){
             $data['bookmarked'] = $data['unit']->bookmark($data['unit']->id);
+            $user = Auth::user();
+            $rating_container = $user->rating;
+            if($rating_container){
+                $data['rate'] = $rating_container->where('unit_id','=',$data['unit']->id)->first();
+            }
+
+
+//            $data['rate'] = Auth::user()->rating->where('unit_id','=',$data['unit']->id)->first();
         }
 
 
@@ -306,15 +315,10 @@ class PropertyController extends Controller
 
         $data['featured_units'] = Featured::offset(0)->limit(10)->get();
 
+        $overall_rate = new rating();
+        $data['overAllRate'] = $overall_rate->getOverAllRating($data['unit']->id);
 
-
-//        return $featured_units[0]->unit_detail->Title;
-
-
-//        return $myFeatures;
-
-
-//        return view('units.property-details',compact('unit','photos','myFeatures','flrPlan','owner_units','featured_units','comments','bookmarked'));
+//            return Round($data['overAllRate'][0]->percentage);
             return view('units.property-details',$data);
     }
 

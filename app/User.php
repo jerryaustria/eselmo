@@ -42,6 +42,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Unit');
     }
 
+    public function UnitRating(){
+//        return $this->hasMany('App\Unit');
+        return $this->belongsTo('App\rating','user_id');
+    }
+
 
     public function userAddress(){
         return $this->hasOne('App\Address');
@@ -65,6 +70,10 @@ class User extends Authenticatable
         }else{
             return false;
         }
+    }
+
+    public function rating(){
+        return $this->hasOne('App\rating','user_id');
     }
 
 
