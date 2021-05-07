@@ -16,7 +16,7 @@
         "guzzlehttp/guzzle": "^6.5",
         "intervention/image": "^2.5",
         "kartik-v/bootstrap-fileinput": "@dev",
-        "laravel/framework": "6.0.*",
+        "laravel/framework": "6.18.*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^6.0.0",
         "unisharp/laravel-filemanager": "^2.0"
